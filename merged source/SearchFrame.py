@@ -2,91 +2,73 @@ import tkinter
 from tkinter import ttk
 from tkinter import font
 
-class OptionFrame(tkinter.Frame):
-    def __init__(self,window,width,height):
-        super(OptionFrame, self).__init__(window)
-        heightRate=height/10
-        minHeight=20
-        minWidth=40
-        i = 1
-        TempFont = tkinter.font.Font(window, size=20, weight='bold', family='Consolas')
-        tkinter.Label(window,font=TempFont ,text="검색 옵션").place(x=minWidth+30, y=heightRate*i+minHeight, anchor="s")
-        tkinter.Button(window,text="검색",command=self.Search).place(x=width/4,y=heightRate-13)
-        i += 1
-        tkinter.Label(window,  text="주택 종류").place(x=minWidth, y=heightRate*i+minHeight, anchor="s")
-        self.isKindCheck = tkinter.BooleanVar()
-        tkinter.ttk.Checkbutton(window, command=self.activeEntry,variable=self.isKindCheck).place(x=width / 4 / 3 * 2,
-                                                                        y=heightRate * i + minHeight, anchor="s")
-        self.kindCombo=ttk.Combobox(window,width=int((width/4+15-width/4/3*2)/10),textvariable=str)
-        self.kindCombo['value']=('test','test','test')
-        self.kindCombo.place(x=width/4+35, y=heightRate*i+minHeight, anchor="se")
-        i += 1
-        tkinter.Label(window,  text="동").place(x=minWidth, y=heightRate*i+minHeight, anchor="s")
-        tkinter.ttk.Checkbutton(window, command=self.activeEntry).place(x=width / 4 / 3 * 2,
-                                                                        y=heightRate * i + minHeight, anchor="s")
-        self.positionCombo = ttk.Combobox(window, width=int((width / 4 + 15 - width / 4 / 3 * 2) / 10), textvariable=str,state='disabled')
-        self.positionCombo['value'] = ('test', 'test', 'test')
-        self.positionCombo.place(x=width / 4 + 35, y=heightRate * i + minHeight, anchor="se")
-        i += 1
-        tkinter.Label(window,  text="월세").place(x=minWidth, y=heightRate*i+minHeight, anchor="s")
-        tkinter.Label(window,  text="최소").place(x=width/4/2, y=heightRate*i+minHeight, anchor="s")
-        tkinter.ttk.Checkbutton(window, command=self.activeEntry).place(x=width / 4 / 3 * 2,
-                                                                        y=heightRate * i + minHeight, anchor="s")
-        self.monthPayMinE=tkinter.Entry(window,width=int((width/4+35-width/4/3*2)/10),state='disabled')
-        self.monthPayMinE.place(x=width/4+35, y=heightRate*i+minHeight, anchor="se")
-        i += 1
-        tkinter.Label(window, text="최대").place(x=width / 4 / 2, y=heightRate * i + minHeight, anchor="s")
-        tkinter.ttk.Checkbutton(window, command=self.activeEntry).place(x=width / 4 / 3 * 2,
-                                                                        y=heightRate * i + minHeight, anchor="s")
-        self.monthPayMaxE = tkinter.Entry(window, width=int((width / 4 + 35 - width / 4 / 3 * 2) / 10),state='disabled')
-        self.monthPayMaxE.place(x=width / 4 + 35, y=heightRate * i + minHeight, anchor="se")
-        i += 1
-        tkinter.Label(window,  text="보증금").place(x=minWidth, y=heightRate*i+minHeight, anchor="s")
-        tkinter.Label(window, text="최소").place(x=width / 4 / 2, y=heightRate * i + minHeight, anchor="s")
-        tkinter.ttk.Checkbutton(window, command=self.activeEntry).place(x=width / 4 / 3 * 2,
-                                                                        y=heightRate * i + minHeight, anchor="s")
-        self.depositMinE = tkinter.Entry(window, width=int((width / 4 + 35 - width / 4 / 3 * 2) / 10),state='disabled')
-        self.depositMinE.place(x=width / 4 + 35, y=heightRate * i + minHeight, anchor="se")
-        i += 1
-        tkinter.Label(window, text="최대").place(x=width / 4 / 2, y=heightRate * i + minHeight, anchor="s")
-        tkinter.ttk.Checkbutton(window, command=self.activeEntry).place(x=width / 4 / 3 * 2,
-                                                                        y=heightRate * i + minHeight, anchor="s")
-        self.depositMaxE = tkinter.Entry(window, width=int((width / 4 + 35 - width / 4 / 3 * 2) / 10),state='disabled')
-        self.depositMaxE.place(x=width / 4 + 35, y=heightRate * i + minHeight, anchor="se")
-        i += 1
-        tkinter.Label(window,  text="건물 면적").place(x=minWidth, y=heightRate*i+minHeight, anchor="s")
-        tkinter.Label(window, text="최소").place(x=width / 4 / 2, y=heightRate * i + minHeight, anchor="s")
-        tkinter.ttk.Checkbutton(window, command=self.activeEntry).place(x=width / 4 / 3 * 2,
-                                                                        y=heightRate * i + minHeight, anchor="s")
-        self.areaMinE = tkinter.Entry(window, width=int((width / 4 + 35 - width / 4 / 3 * 2) / 10),state='disabled')
-        self.areaMinE.place(x=width / 4 + 35, y=heightRate * i + minHeight, anchor="se")
-        i += 1
-        tkinter.Label(window, text="최대").place(x=width / 4 / 2, y=heightRate * i + minHeight, anchor="s")
-        tkinter.ttk.Checkbutton(window, command=self.activeEntry).place(x=width / 4 / 3 * 2,
-                                                                        y=heightRate * i + minHeight, anchor="s")
-        self.areaMaxE = tkinter.Entry(window, width=int((width / 4 + 35 - width / 4 / 3 * 2) / 10),state='disabled')
-        self.areaMaxE.place(x=width / 4 + 35, y=heightRate * i + minHeight, anchor="se")
 
-
-    def Search(self):
-        pass
-    def activeEntry(self):
-        if self.isKindCheck.get()==1:
-            self.kindCombo['state']='active'
-        else:
-            self.kindCombo['state'] = 'active'
-
-
+#Search프레임 관리
 class Search:
-    def __init__(self,width,height):
+    def __init__(self,window=tkinter.Tk(),width=800,height=600):
         self.width=width
         self.height=height
-        window = tkinter.Tk()
         window.geometry(str(self.width)+"x"+str(self.height))
         frame=OptionFrame(window,width,height)
 
         window.mainloop()
 
+#옵션의 프레임
+class OptionFrame(tkinter.Frame):
+    def __init__(self,window,width,height):
+        heightRate=height/10
+        minHeight=20
+        minWidth=40
 
+        self.optionList=[["검색 옵션"],
+                    ["주택 종류",      "",      '',      tkinter.BooleanVar()  ,("test","test","test")],
+                    ["동",            "",      '',      tkinter.BooleanVar()  ,("test","test","test")],
+                    ["월세",         "최소",   '',       tkinter.BooleanVar()],
+                    ["",            "최대",   '',       tkinter.BooleanVar()],
+                    ["보증금",       "최소",   '',       tkinter.BooleanVar()],
+                    ["",            "최대",   '',       tkinter.BooleanVar()],
+                    ["건물 면적",    "최소",   '',       tkinter.BooleanVar()],
+                    ["",            "최대",   '',       tkinter.BooleanVar()]
+                    ]
+
+        #처음 검색옵션만 예외로 위치 설정
+        TempFont = tkinter.font.Font(window, size=20, weight='bold', family='Consolas')
+        tkinter.Label(window, font=TempFont, text=self.optionList[0][0]).place(x=minWidth + 30, y=heightRate+ minHeight, anchor="s")
+        tkinter.Button(window, text="검색", command=self.Search).place(x=width / 4, y=heightRate - 13)
+        for i in range(1,len(self.optionList)):
+            #0번 인덱스가 있을 경우 옵션 이름 세팅
+            if self.optionList[i][0]:
+                tkinter.Label(window, text=self.optionList[i][0]).place(x=minWidth, y=heightRate * (i + 1) + minHeight, anchor="s")
+            # 1번 인덱스에 최소 최대 가 있을 경우 이름 세팅과 2번에 Entry세팅
+            if self.optionList[i][1]:
+                tkinter.Label(window, text=self.optionList[i][1]).place(x=width / 4 / 2, y=heightRate * (i + 1) + minHeight, anchor="s")
+                self.optionList[i][2]=tkinter.Entry(window, width=int((width / 4 + 35 - width / 4 / 3 * 2) / 10), state='disabled')
+            #1번 인덱스가 빌 경우 2번에 콤보박스 세팅
+            else:
+                self.optionList[i][2]=(ttk.Combobox(window, width=int((width / 4 + 15 - width / 4 / 3 * 2) / 10), textvariable=str,state='disabled'))
+                self.optionList[i][2]['value']=self.optionList[i][4]
+            self.optionList[i][2].place(x=width / 4 + 35, y=heightRate * (i + 1) + minHeight, anchor="se")
+            #체크 박스 세팅
+            self.optionList[i].append(tkinter.ttk.Checkbutton(window,variable= self.optionList[i][3], command=self.activeEntry).place(x=width / 4 / 3 * 2,
+                                                                        y=heightRate * (i+1) + minHeight, anchor="s"))
+    def Search(self):
+        for i in range(1, len(self.optionList)):
+            print(self.optionList[i][2].get())
+
+    def activeEntry(self):
+        for i in range(1, len(self.optionList)):
+                if self.optionList[i][3].get()==True:
+                    #콤보박스
+                    if self.optionList[i][4]:
+                        self.optionList[i][2]['state'] = 'readonly'
+                    #엔트리
+                    else:
+                        self.optionList[i][2]['state'] = 'normal'
+                else:
+                    self.optionList[i][2]['state'] = 'disabled'
+
+
+
+Search()
 
 
