@@ -3,9 +3,10 @@ from CustomTkClass import*
 class InformationFrame(Frame):
     listboxHeightRatio = 0.4
     infoWidthRatio = 0.5
-    def __init__(self, window, viewport):
+    def __init__(self, mainframe, window, viewport):
         super(InformationFrame, self).__init__(window, viewport)
-        
+        self.mainframe = mainframe
+
         # UI 생성
         self.initListboxFrame()
         self.initInfomationFrame()

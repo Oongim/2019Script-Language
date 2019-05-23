@@ -22,8 +22,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/SearchFrame.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="385">
-              <caret line="55" column="46" lean-forward="true" selection-start-line="54" selection-start-column="8" selection-end-line="55" selection-end-column="46" />
+            <state relative-caret-position="100">
+              <caret line="38" column="35" lean-forward="true" selection-start-line="38" selection-start-column="35" selection-end-line="38" selection-end-column="35" />
             </state>
           </provider>
         </entry>
@@ -36,13 +36,13 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/SearchFrame.py" />
         <option value="$PROJECT_DIR$/MainFrame.py" />
+        <option value="$PROJECT_DIR$/SearchFrame.py" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="-20" />
+  <component name="ProjectFrameBounds" extendedState="1">
+    <option name="x" value="95" />
     <option name="y" value="7" />
     <option name="width" value="1605" />
     <option name="height" value="1025" />
@@ -53,7 +53,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -65,6 +64,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -150,7 +150,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-20" y="7" width="1605" height="1025" extended-state="0" />
+    <frame x="95" y="7" width="1605" height="1025" extended-state="1" />
     <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24888322" />
@@ -192,8 +192,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/SearchFrame.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="385">
-          <caret line="55" column="46" lean-forward="true" selection-start-line="54" selection-start-column="8" selection-end-line="55" selection-end-column="46" />
+        <state relative-caret-position="100">
+          <caret line="38" column="35" lean-forward="true" selection-start-line="38" selection-start-column="35" selection-end-line="38" selection-end-column="35" />
         </state>
       </provider>
     </entry>

@@ -12,8 +12,9 @@ class Search:
 
 #옵션의 프레임
 class OptionFrame(Frame):
-    def __init__(self,window,viewport):
+    def __init__(self, mainframe, window,viewport):
         super(OptionFrame, self).__init__(window, viewport)
+        self.mainframe = mainframe
         width = viewport.width
         height = viewport.height
         heightRate=height/10
@@ -34,7 +35,7 @@ class OptionFrame(Frame):
         #처음 검색옵션만 예외로 위치 설정
         TempFont = tkinter.font.Font(window, size=20, weight='bold', family='Consolas')
         tkinter.Label(window, font=TempFont, text=self.optionList[0][0]).place(x=width/4/2 + 30, y=heightRate + minHeight, anchor="s")
-        tkinter.Button(window, text="검색", command=self.Search).place(x=width-20, y=heightRate+13 ,anchor="se")
+        tkinter.Button(window, text="검색", command=self.search).place(x=width - 20, y=heightRate + 13, anchor="se")
         for i in range(1,len(self.optionList)):
             #0번 인덱스가 있을 경우 옵션 이름 세팅
             if self.optionList[i][0]:
@@ -51,9 +52,15 @@ class OptionFrame(Frame):
             #체크 박스 세팅
             self.optionList[i].append(tkinter.ttk.Checkbutton(window,variable= self.optionList[i][3], command=self.activeEntry).place(x=width / 2 ,
                                                                         y=heightRate * (i+1) + minHeight, anchor="s"))
-    def Search(self):
-        for i in range(1, len(self.optionList)):
-            print(self.optionList[i][2].get())
+
+
+    def search(self):
+        searchMethods = self.getSearchMethods()
+        self.mainframe.reciveEvent(search=searchMethods)
+
+         # for i in range(1, len(self.optionList)):
+         #     print(self.optionList[i][2].get())
+
 
     def activeEntry(self):
         for i in range(1, len(self.optionList)):
@@ -68,6 +75,34 @@ class OptionFrame(Frame):
                     self.optionList[i][2]['state'] = 'disabled'
 
 
+    def getSearchMethods(self):
+
+        # self.optionList = [["검색 옵션"],
+        #                    ["주택 종류", "", '', tkinter.BooleanVar(), ("test", "test", "test")],
+        #                    ["동", "", '', tkinter.BooleanVar(), ("test", "test", "test")],
+        #                    ["월세", "최소", '', tkinter.BooleanVar()],
+        #                    ["", "최대", '', tkinter.BooleanVar()],
+        #                    ["보증금", "최소", '', tkinter.BooleanVar()],
+        #                    ["", "최대", '', tkinter.BooleanVar()],
+        #                    ["건물 면적", "최소", '', tkinter.BooleanVar()],
+        #                    ["", "최대", '', tkinter.BooleanVar()]
+        #                    ]
+        searchMethods = []
+        for i in range(1, len(self.optionList)):
+            if self.optionList[i][3].get() == True:
+                # 콤보박스
+                if self.optionList[i][4]:
+                    searchMethods.append(lambda param: param == self.optionList[i][2].get())
+                # 엔트리
+                else:
+                    if self.optionList[i][1] == "최소":
+                        searchMethods.append(lambda param: self.optionList[i][2].get() <= param)
+                    elif self.optionList[i][1] == "최대":
+                        searchMethods.append(lambda param: param <= self.optionList[i][2].get())
+            else:
+                searchMethods.append(lambda param: True)
+
+        return searchMethods
 
 
 

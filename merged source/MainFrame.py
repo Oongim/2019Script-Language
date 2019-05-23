@@ -10,7 +10,7 @@ class MainFrame:
         self.buildNotebook()
 
 
-        optionFrame = OptionFrame(self.notebook.getFrame("test_1"),
+        optionFrame = OptionFrame(self, self.notebook.getFrame("test_1"),
                                   Viewport(
                                       0,
                                       0,
@@ -18,7 +18,7 @@ class MainFrame:
                                       self.notebook.getFrame("test_1").viewport.height))
         optionFrame.pack(side=tkinter.LEFT)
 
-        infoFrame = InformationFrame(self.notebook.getFrame("test_1"),
+        infoFrame = InformationFrame(self, self.notebook.getFrame("test_1"),
                                             Viewport(
                                                 self.notebook.getFrame("test_1").viewport.right-500,
                                                 0,
@@ -26,7 +26,7 @@ class MainFrame:
                                                 self.notebook.getFrame("test_1").viewport.height))
         infoFrame.pack(side=tkinter.RIGHT)
 
-        selectionInfoFrame= InformationFrame(self.notebook.getFrame("test_2"),
+        selectionInfoFrame= InformationFrame(self, self.notebook.getFrame("test_2"),
                                             Viewport(
                                                 0,
                                                 0,
@@ -47,6 +47,13 @@ class MainFrame:
 
         self.notebook.addTab(self.window, tab1Viewport, "test_1")
         self.notebook.addTab(self.window, tab2Viewport, "test_2")
+
+    def reciveEvent(self, **events):
+        # 미완
+        for (event, eventData) in events.items():
+            if event == "search":
+                pass
+
 
 
 MainFrame()
