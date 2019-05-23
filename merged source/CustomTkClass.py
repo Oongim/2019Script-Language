@@ -14,6 +14,14 @@ class Viewport:
         self.width = width
         self.height = height
 
+    def makeElementToInt(self):
+        self.left = int(self.left)
+        self.top = int(self.top)
+        self.right = int(self.right)
+        self.bottom = int(self.bottom)
+        self.width = int(self.width)
+        self.height = int(self.height)
+
 
 class Window(tkinter.Tk):
     def __init__(self, left=200, top=200, width=1280, height=720):

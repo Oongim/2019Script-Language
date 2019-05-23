@@ -1,5 +1,7 @@
 from CustomTkClass import*
 from SearchFrame import *
+from InformationFrame import *
+
 
 
 class MainFrame:
@@ -9,11 +11,28 @@ class MainFrame:
 
 
         optionFrame = OptionFrame(self.notebook.getFrame("test_1"),
-                                    Viewport(0, 0,
+                                  Viewport(
+                                      0,
+                                      0,
                                       self.notebook.getFrame("test_1").viewport.right-500,
                                       self.notebook.getFrame("test_1").viewport.height))
-        optionFrame.grid(row=0, column=0)
+        optionFrame.pack(side=tkinter.LEFT)
 
+        infoFrame = InformationFrame(self.notebook.getFrame("test_1"),
+                                            Viewport(
+                                                self.notebook.getFrame("test_1").viewport.right-500,
+                                                0,
+                                                500,
+                                                self.notebook.getFrame("test_1").viewport.height))
+        infoFrame.pack(side=tkinter.RIGHT)
+
+        selectionInfoFrame= InformationFrame(self.notebook.getFrame("test_2"),
+                                            Viewport(
+                                                0,
+                                                0,
+                                                200,
+                                                self.notebook.getFrame("test_2").viewport.height))
+        selectionInfoFrame.pack(side=tkinter.LEFT)
 
         self.window.mainloop()
 
