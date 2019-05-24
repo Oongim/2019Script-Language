@@ -22,8 +22,8 @@ class OptionFrame(Frame):
         minWidth=40
 
         self.optionList=[["검색 옵션"],
-                         ["주택 종류",      "",      '',      tkinter.BooleanVar()  ,("test","test","test")],
-                         ["동",            "",      '',      tkinter.BooleanVar()  ,("test","test","test")],
+                         ["주택 종류",      "",      '',      tkinter.BooleanVar()  ,("연립 다세대","단독 다가구")],
+                         ["동",            "",      '',      tkinter.BooleanVar()  ,("정왕동","신천동")],
                          ["월세",         "최소",   '',       tkinter.BooleanVar()],
                          ["",            "최대",   '',       tkinter.BooleanVar()],
                          ["보증금",       "최소",   '',       tkinter.BooleanVar()],

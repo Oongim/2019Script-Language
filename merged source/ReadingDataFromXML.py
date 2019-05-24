@@ -27,9 +27,11 @@ def getDataesSmallApartment(LAWD_CD, DEAL_YMD):
 
 
 def getDataesSingleDetachedHouse(LAWD_CD, DEAL_YMD):
-    singleDetachedHouseURL = "http://openapi.molit.go.kr:8081/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcRHRent?" + \
-                          "serviceKey=e07l%2FJKjgBmbsW47T0yZchUXcgD2K7v9znyVX8WBKIPUkCpdHgMpxIk1nRksfUDBvFCtRk7A%2BH6KKbwYxVXfOQ%3D%3D" + \
-                          "&LAWD_CD={LAWD_CD}&DEAL_YMD={DEAL_YMD}".format(LAWD_CD=LAWD_CD, DEAL_YMD=DEAL_YMD)
+    singleDetachedHouseURL = "http://openapi.molit.go.kr:8081/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcSHRent?" + \
+                             "serviceKey=IZ9s8c2tjO0gB4qkVdINj%2Bx0uW5AoM%2FmphJ42H4qz5Djt82Kdt45%2BUiVe9nP2XQCCBcKvvvS4XZo3%2BqIh6DJKg%3D%3D" + \
+                             "&LAWD_CD={LAWD_CD}&DEAL_YMD={DEAL_YMD}".format(LAWD_CD=LAWD_CD, DEAL_YMD=DEAL_YMD)
+
+
 
     dataes = getDictDataesFromURLOpenAPI(singleDetachedHouseURL)
     return [DataSingleDetachedHouse(**data) for data in dataes]
@@ -79,11 +81,11 @@ class DOMReadingManager:
         
         # 검색 함수 설정
         if DOMReadingManager.houseType.activeSelf:
-            if DOMReadingManager.houseType == CONST_HOUSE_TYPE_ALL:
+            if DOMReadingManager.houseType.value == CONST_HOUSE_TYPE_ALL:
                 readFunctions = [getDataesSmallApartment, getDataesSingleDetachedHouse]
-            elif DOMReadingManager.houseType == CONST_HOUSE_TYPE_SMALL_APARTMENT:
+            elif DOMReadingManager.houseType.value == CONST_HOUSE_TYPE_SMALL_APARTMENT:
                 readFunctions = [getDataesSmallApartment]
-            elif DOMReadingManager.houseType == CONST_HOUSE_TYPE_SINGLE_DETACHED_HOUSE:
+            elif DOMReadingManager.houseType.value == CONST_HOUSE_TYPE_SINGLE_DETACHED_HOUSE:
                 readFunctions = [getDataesSingleDetachedHouse]
             else:
                 raise Error.NotUsableValue()    #houseType should be usable value
@@ -96,12 +98,11 @@ class DOMReadingManager:
         LAWD_CD = 41390     # 시흥시
         DEAL_YMDs = [int(str(year)+strMonth) for year in range(2018, 2018+1) for strMonth in strMonths]
 
-        notRemoveDataes = []
         resultDataes = []
         for readFunc in readFunctions:
             for DEAL_YMD in DEAL_YMDs:
                 dataes = readFunc(LAWD_CD, DEAL_YMD)
-                notRemoveDataes += dataes
+
                 #조건에 맞지 않는 data는 삭제
                 index = 0
                 while index < len(dataes):
@@ -111,40 +112,52 @@ class DOMReadingManager:
                         index += 1
                 resultDataes += dataes
 
-        resultDataes.sort(key=lambda data:data.find("월세금액"))
         return resultDataes
 
 
 
     @staticmethod
     def checkDataWithOption(data):
+
+
+        def formattedOptionToType(strOption, type, *removeChars):
+            for char in removeChars:
+                strOption=strOption.replace(char, "")
+            return type(strOption)
+
+        dong = formattedOptionToType(data.find("법정동"), str, " ")
+        monthlyRent = formattedOptionToType(data.find("월세금액"), eval, ",", " ")
+        deposit = formattedOptionToType(data.find("보증금액"), eval, ",", " ")
+        areaSize = formattedOptionToType(data.find("면적"), eval, ",", " ")
+
+
         if DOMReadingManager.addressDong.activeSelf:
             if DOMReadingManager.addressDong.value != "":
-                if data.find("법정동") != DOMReadingManager.addressDong.value:
+                if dong != DOMReadingManager.addressDong.value:
                     return False
 
         if DOMReadingManager.minMonthlyRent.activeSelf:
-            if int(data.find("월세금액")) < DOMReadingManager.minMonthlyRent.value:
+            if monthlyRent < DOMReadingManager.minMonthlyRent.value:
                 return False
 
         if DOMReadingManager.maxMonthlyRent.activeSelf:
-            if int(data.find("월세금액")) > DOMReadingManager.maxMonthlyRent.value:
+            if monthlyRent > DOMReadingManager.maxMonthlyRent.value:
                 return False
 
         if DOMReadingManager.minDeposit.activeSelf:
-            if int(data.find("보증금")) < DOMReadingManager.minDeposit.value:
+            if deposit < DOMReadingManager.minDeposit.value:
                 return False
 
         if DOMReadingManager.maxDeposit.activeSelf:
-            if int(data.find("보증금")) > DOMReadingManager.maxDeposit.value:
+            if deposit > DOMReadingManager.maxDeposit.value:
                 return False
 
         if DOMReadingManager.minAreaSize.activeSelf:
-            if int(data.find("면적")) < DOMReadingManager.minAreaSize.value:
+            if areaSize < DOMReadingManager.minAreaSize.value:
                 return False
 
         if DOMReadingManager.maxAreaSize.activeSelf:
-            if int(data.find("면적")) > DOMReadingManager.maxAreaSize.value:
+            if areaSize > DOMReadingManager.maxAreaSize.value:
                 return False
 
         return True
@@ -204,7 +217,7 @@ class DOMReadingManager:
 
     @staticmethod
     def setMaxAreaSize(bActivation, areaSize='0'):
-        DOMReadingManager.minAreaSize.set(bActivation, int(areaSize))
+        DOMReadingManager.maxAreaSize.set(bActivation, int(areaSize))
 
 
 

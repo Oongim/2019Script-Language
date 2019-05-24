@@ -10,4 +10,6 @@ testFunc(*List)
 
 print("11{0}".format("ok"))
 
-print(int("     43"))
+string = "     4,3,"
+print(string.replace(",", ""))
+print(string.replace(""))

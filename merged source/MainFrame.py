@@ -19,13 +19,13 @@ class MainFrame:
                                       self.notebook.getFrame("test_1").viewport.height))
         optionFrame.pack(side=tkinter.LEFT)
 
-        infoFrame = InformationFrame(self, self.notebook.getFrame("test_1"),
+        self.infoFrame = InformationFrame(self, self.notebook.getFrame("test_1"),
                                             Viewport(
                                                 self.notebook.getFrame("test_1").viewport.right-500,
                                                 0,
                                                 500,
                                                 self.notebook.getFrame("test_1").viewport.height))
-        infoFrame.pack(side=tkinter.RIGHT)
+        self.infoFrame.pack(side=tkinter.RIGHT)
 
         selectionInfoFrame= InformationFrame(self, self.notebook.getFrame("test_2"),
                                             Viewport(
@@ -56,6 +56,8 @@ class MainFrame:
                 DOMReadingManager.initSearchOption()
                 DOMReadingManager.setWithFormattedOptionList(eventData)
                 dataes = DOMReadingManager.readXML()
+                self.infoFrame.setDataList(dataes)
+                self.infoFrame.update()
 
 
 

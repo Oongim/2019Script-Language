@@ -51,3 +51,25 @@ class InformationFrame(Frame):
         self.test2 = tkinter.Listbox(self, width=vpMapFrame.width)
         self.test2.place(x=vpMapFrame.left, y=vpMapFrame.top,
                          width=vpMapFrame.width, height=vpMapFrame.height)
+
+    def setDataList(self, dataList):
+        self.dataList = dataList
+
+
+    def update(self):
+        vpListbox = Viewport(
+            0,
+            0,
+            self.viewport.width,
+            self.viewport.height * InformationFrame.listboxHeightRatio
+        )
+        vpListbox.makeElementToInt()
+        self.listbox.delete(0, tkinter.END)
+        i = 0
+        for data in self.dataList:
+            dataString = "동 : {동}   월세 : {월세}만원   보증금 : {보증금}만원   면적 : {면적}m2".format(
+                   동=data.find("법정동"), 월세=data.find("월세금액"), 보증금=data.find("보증금액"), 면적=data.find("면적"))
+            self.listbox.insert(i, dataString)
+        # self.listbox.place(x=vpListbox.left, y=vpListbox.top,
+        #                    width=vpListbox.width, height=vpListbox.height)
+
