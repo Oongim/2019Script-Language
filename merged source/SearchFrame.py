@@ -55,8 +55,8 @@ class OptionFrame(Frame):
 
 
     def search(self):
-        searchMethods = self.getSearchMethods()
-        self.mainframe.reciveEvent(search=searchMethods)
+        searchOptions = self.getSearchOptionList()
+        self.mainframe.reciveEvent(search=searchOptions)
 
          # for i in range(1, len(self.optionList)):
          #     print(self.optionList[i][2].get())
@@ -75,34 +75,14 @@ class OptionFrame(Frame):
                     self.optionList[i][2]['state'] = 'disabled'
 
 
-    def getSearchMethods(self):
-
-        # self.optionList = [["검색 옵션"],
-        #                    ["주택 종류", "", '', tkinter.BooleanVar(), ("test", "test", "test")],
-        #                    ["동", "", '', tkinter.BooleanVar(), ("test", "test", "test")],
-        #                    ["월세", "최소", '', tkinter.BooleanVar()],
-        #                    ["", "최대", '', tkinter.BooleanVar()],
-        #                    ["보증금", "최소", '', tkinter.BooleanVar()],
-        #                    ["", "최대", '', tkinter.BooleanVar()],
-        #                    ["건물 면적", "최소", '', tkinter.BooleanVar()],
-        #                    ["", "최대", '', tkinter.BooleanVar()]
-        #                    ]
-        searchMethods = []
+    def getSearchOptionList(self):
+        searchOptions = []
         for i in range(1, len(self.optionList)):
             if self.optionList[i][3].get() == True:
-                # 콤보박스
-                if self.optionList[i][4]:
-                    searchMethods.append(lambda param: param == self.optionList[i][2].get())
-                # 엔트리
-                else:
-                    if self.optionList[i][1] == "최소":
-                        searchMethods.append(lambda param: self.optionList[i][2].get() <= param)
-                    elif self.optionList[i][1] == "최대":
-                        searchMethods.append(lambda param: param <= self.optionList[i][2].get())
+                searchOptions.append([True, self.optionList[i][2].get()])
             else:
-                searchMethods.append(lambda param: True)
-
-        return searchMethods
+                searchOptions.append([False])
+        return searchOptions
 
 
 

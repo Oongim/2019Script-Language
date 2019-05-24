@@ -1,4 +1,5 @@
-
+from DataClass import DataSmallApartment
+from DataClass import DataSingleDetachedHouse
 
 def findNode(domNode, *nodeNames):
     if len(nodeNames) == 0:

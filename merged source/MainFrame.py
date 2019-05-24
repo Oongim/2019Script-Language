@@ -1,6 +1,7 @@
 from CustomTkClass import*
 from SearchFrame import *
 from InformationFrame import *
+from ReadingDataFromXML import *
 
 
 
@@ -52,7 +53,15 @@ class MainFrame:
         # 미완
         for (event, eventData) in events.items():
             if event == "search":
-                pass
+                DOMReadingManager.initSearchOption()
+                DOMReadingManager.setWithFormattedOptionList(eventData)
+                dataes = DOMReadingManager.readXML()
+
+
+
+
+
+
 
 
 
