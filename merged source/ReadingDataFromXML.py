@@ -94,15 +94,16 @@ class DOMReadingManager:
 
         # 법정동string으로부터 지번코드로 변경하는 처리를 추가해야한다.
         # 일단은 임시로 고정값을 설정해 둠.
-        strMonths = ["01", "02", "03", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"]
+        strMonths = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"]
         LAWD_CD = 41390     # 시흥시
         DEAL_YMDs = [int(str(year)+strMonth) for year in range(2018, 2018+1) for strMonth in strMonths]
 
+        allDataes = []
         resultDataes = []
         for readFunc in readFunctions:
             for DEAL_YMD in DEAL_YMDs:
                 dataes = readFunc(LAWD_CD, DEAL_YMD)
-
+                allDataes = allDataes + dataes
                 #조건에 맞지 않는 data는 삭제
                 index = 0
                 while index < len(dataes):
