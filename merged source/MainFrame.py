@@ -3,7 +3,7 @@ from SearchFrame import *
 from InformationFrame import *
 from ReadingDataFromXML import *
 from GmailAndXMLSaveLoadFrame import GmailAndXMLSaveLoadFrame
-
+from GraphFrame import *
 
 
 class MainFrame:
@@ -37,6 +37,14 @@ class MainFrame:
                                                 500,
                                                 500))
         self.selectionInfoFrame.place(x= self.selectionInfoFrame.viewport.left, y =  self.selectionInfoFrame.viewport.top)
+
+        self.graphFrame = GraphFrame(self, self.notebook.getFrame("test_2"),
+                                Viewport(
+                                    500,
+                                    0,
+                                    300,
+                                    500))
+        self.graphFrame.place(x= self.graphFrame.viewport.left, y= self.graphFrame.viewport.top)
         self.gmailFrame = GmailAndXMLSaveLoadFrame(self, self.notebook.getFrame("test_2"),
                                               Viewport(
                                                   0,
@@ -56,7 +64,7 @@ class MainFrame:
         # self.tabs.addTab(self.window, self.window.viewport, "test_1")
         # self.tabs.addTab(self.window, self.window.viewport, "test_2")
         tab1Viewport = Viewport(0, 0, 800, 500)
-        tab2Viewport = Viewport(0, 0, 800, 700)
+        tab2Viewport = Viewport(0, 0, 800, 600)
 
 
         self.notebook.addTab(self.window, tab1Viewport, "test_1")
@@ -81,5 +89,5 @@ class MainFrame:
 
 
 mainframe = MainFrame()
-DOMReadingManager.readXML()
+#DOMReadingManager.readXML()
 mainframe.mainloop()
