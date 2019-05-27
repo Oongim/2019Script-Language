@@ -1,6 +1,7 @@
 import UtilityDOM
 from DataClass import DataSmallApartment
 from DataClass import DataSingleDetachedHouse
+from DataClass import formattedOptionToType
 
 import Error
 
@@ -63,6 +64,9 @@ class DOMReadingManager:
     minAreaSize = ActivableValue(False, 0)
     maxAreaSize = ActivableValue(False, 0)
 
+    dataesSmallApartment = []
+    dataesSingleDetachedHouse = []
+
 
     @staticmethod
     def initSearchOption():
@@ -78,53 +82,45 @@ class DOMReadingManager:
 
     @staticmethod
     def readXML():
-        
+        # 법정동string으로부터 지번코드로 변경하는 처리를 추가해야한다.
+        # 일단은 임시로 고정값을 설정해 둠.
+        DOMReadingManager.dataesSmallApartment.clear()
+        DOMReadingManager.dataesSingleDetachedHouse.clear()
+        strMonths = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"]
+        LAWD_CD = 41390  # 시흥시
+        DEAL_YMDs = [int(str(year) + strMonth) for year in range(2018, 2018 + 1) for strMonth in strMonths]
+
+        for DEAL_YMD in DEAL_YMDs:
+            DOMReadingManager.dataesSmallApartment \
+                += getDataesSmallApartment(LAWD_CD, DEAL_YMD)
+            DOMReadingManager.dataesSingleDetachedHouse \
+                += getDataesSingleDetachedHouse(LAWD_CD, DEAL_YMD)
+            print("LAWD_CD: {LAWD_CD}     DEAL_YMD: {DEAL_YMD}".format(LAWD_CD=LAWD_CD, DEAL_YMD=DEAL_YMD))
+
+
+
+    @staticmethod
+    def searchDataes():
         # 검색 함수 설정
         if DOMReadingManager.houseType.activeSelf:
             if DOMReadingManager.houseType.value == CONST_HOUSE_TYPE_ALL:
-                readFunctions = [getDataesSmallApartment, getDataesSingleDetachedHouse]
+                readDstDataes = DOMReadingManager.dataesSmallApartment + DOMReadingManager.dataesSingleDetachedHouse
             elif DOMReadingManager.houseType.value == CONST_HOUSE_TYPE_SMALL_APARTMENT:
-                readFunctions = [getDataesSmallApartment]
+                readDstDataes = DOMReadingManager.dataesSmallApartment
             elif DOMReadingManager.houseType.value == CONST_HOUSE_TYPE_SINGLE_DETACHED_HOUSE:
-                readFunctions = [getDataesSingleDetachedHouse]
+                readDstDataes = DOMReadingManager.dataesSingleDetachedHouse
             else:
                 raise Error.NotUsableValue()    #houseType should be usable value
         else:
-            readFunctions = [getDataesSmallApartment, getDataesSingleDetachedHouse]
+            readDstDataes = DOMReadingManager.dataesSmallApartment + DOMReadingManager.dataesSingleDetachedHouse
 
-        # 법정동string으로부터 지번코드로 변경하는 처리를 추가해야한다.
-        # 일단은 임시로 고정값을 설정해 둠.
-        strMonths = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"]
-        LAWD_CD = 41390     # 시흥시
-        DEAL_YMDs = [int(str(year)+strMonth) for year in range(2018, 2018+1) for strMonth in strMonths]
+        return [data for data in readDstDataes if DOMReadingManager.checkDataWithOption(data)]
 
-        allDataes = []
-        resultDataes = []
-        for readFunc in readFunctions:
-            for DEAL_YMD in DEAL_YMDs:
-                dataes = readFunc(LAWD_CD, DEAL_YMD)
-                allDataes = allDataes + dataes
-                #조건에 맞지 않는 data는 삭제
-                index = 0
-                while index < len(dataes):
-                    if not DOMReadingManager.checkDataWithOption(dataes[index]):
-                        dataes.remove(dataes[index])
-                    else:
-                        index += 1
-                resultDataes += dataes
-
-        return resultDataes
 
 
 
     @staticmethod
     def checkDataWithOption(data):
-
-
-        def formattedOptionToType(strOption, type, *removeChars):
-            for char in removeChars:
-                strOption=strOption.replace(char, "")
-            return type(strOption)
 
         dong = formattedOptionToType(data.find("법정동"), str, " ")
         monthlyRent = formattedOptionToType(data.find("월세금액"), eval, ",", " ")

@@ -31,10 +31,13 @@ class MainFrame:
                                             Viewport(
                                                 0,
                                                 0,
-                                                200,
-                                                self.notebook.getFrame("test_2").viewport.height))
+                                                500,
+                                                500))
         selectionInfoFrame.pack(side=tkinter.LEFT)
 
+
+
+    def mainloop(self):
         self.window.mainloop()
 
     def buildNotebook(self):
@@ -43,7 +46,7 @@ class MainFrame:
         # self.tabs.addTab(self.window, self.window.viewport, "test_1")
         # self.tabs.addTab(self.window, self.window.viewport, "test_2")
         tab1Viewport = Viewport(0, 0, 800, 500)
-        tab2Viewport = Viewport(0, 0, 500, 300)
+        tab2Viewport = Viewport(0, 0, 800, 700)
 
 
         self.notebook.addTab(self.window, tab1Viewport, "test_1")
@@ -55,9 +58,9 @@ class MainFrame:
             if event == "search":
                 DOMReadingManager.initSearchOption()
                 DOMReadingManager.setWithFormattedOptionList(eventData)
-                dataes = DOMReadingManager.readXML()
+                dataes = DOMReadingManager.searchDataes()
                 self.infoFrame.setDataList(dataes)
-                self.infoFrame.update()
+                self.infoFrame.updateListbox()
 
 
 
@@ -67,4 +70,6 @@ class MainFrame:
 
 
 
-MainFrame()
+mainframe = MainFrame()
+DOMReadingManager.readXML()
+mainframe.mainloop()

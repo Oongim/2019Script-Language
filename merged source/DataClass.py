@@ -38,6 +38,12 @@ class DataSingleDetachedHouse(DataInterface):
         return self.findWithOriginKey(searchKey)
 
 
+def formattedOptionToType(strOption, type, *removeChars):
+    for char in removeChars:
+        strOption = strOption.replace(char, "")
+    return type(strOption)
+
+
 # 연립 다세대
 # <건축년도>2002</건축년도>
 # <년>2015</년>

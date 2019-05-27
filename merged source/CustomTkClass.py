@@ -109,3 +109,25 @@ class TabFrame(Frame):
     def onVisibility(self):
         # 노트북의 크기 전환은 할 필요없음. 자동으로 되는 듯
         self.window.resize(width=self.viewport.width, height=self.viewport.height+Notebook.upperGab)
+
+
+class DescLabel:
+    def __init__(self, window, viewport, kindText, dataText, kindLabelWidth, dataLabelWidth):
+        self.window = window
+        self.viewport = viewport
+        self.labelFont = tkinter.font.Font(window, size=10, weight='bold', family='Consolas')
+
+        self.kindLabel = tkinter.Label(window, font=self.labelFont, text=kindText, width=kindLabelWidth, height=1, anchor="e")
+        self.dataLabel = tkinter.Label(window, font=self.labelFont, text=dataText, width=dataLabelWidth, height=1, anchor="w")
+
+        self.kindLabel.place(x=viewport.left, y=viewport.top, anchor="nw")
+        self.dataLabel.place(x=viewport.right, y=viewport.top, anchor="ne")
+
+        #디버그용 코드
+        # self.kindLabel.configure(bg="blue")
+        # self.dataLabel.configure(bg="red")
+
+    def setTextDataLabel(self, text):
+        self.dataLabel.configure(text=text)
+
+
