@@ -51,8 +51,8 @@ class ActivableValue:
 
 
 CONST_HOUSE_TYPE_ALL = ""
-CONST_HOUSE_TYPE_SMALL_APARTMENT = "단독 다가구"
-CONST_HOUSE_TYPE_SINGLE_DETACHED_HOUSE = "연립 다세대"
+CONST_HOUSE_TYPE_SMALL_APARTMENT = "연립 다세대"
+CONST_HOUSE_TYPE_SINGLE_DETACHED_HOUSE = "단독 다가구"
 
 class DOMReadingManager:
     houseType = ActivableValue(False, CONST_HOUSE_TYPE_ALL)

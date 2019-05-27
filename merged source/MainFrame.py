@@ -2,6 +2,7 @@ from CustomTkClass import*
 from SearchFrame import *
 from InformationFrame import *
 from ReadingDataFromXML import *
+from GmailAndXMLSaveLoadFrame import GmailAndXMLSaveLoadFrame
 
 
 
@@ -17,7 +18,7 @@ class MainFrame:
                                       0,
                                       self.notebook.getFrame("test_1").viewport.right-500,
                                       self.notebook.getFrame("test_1").viewport.height))
-        optionFrame.pack(side=tkinter.LEFT)
+        optionFrame.place(x=optionFrame.viewport.left, y = optionFrame.viewport.top)
 
         self.infoFrame = InformationFrame(self, self.notebook.getFrame("test_1"),
                                             Viewport(
@@ -25,16 +26,25 @@ class MainFrame:
                                                 0,
                                                 500,
                                                 self.notebook.getFrame("test_1").viewport.height))
-        self.infoFrame.pack(side=tkinter.RIGHT)
+        self.infoFrame.place(x= self.infoFrame.viewport.left, y =  self.infoFrame.viewport.top)
 
-        selectionInfoFrame= InformationFrame(self, self.notebook.getFrame("test_2"),
+
+
+        self.selectionInfoFrame= InformationFrame(self, self.notebook.getFrame("test_2"),
                                             Viewport(
                                                 0,
                                                 0,
                                                 500,
                                                 500))
-        selectionInfoFrame.pack(side=tkinter.LEFT)
-
+        self.selectionInfoFrame.place(x= self.selectionInfoFrame.viewport.left, y =  self.selectionInfoFrame.viewport.top)
+        self.gmailFrame = GmailAndXMLSaveLoadFrame(self, self.notebook.getFrame("test_2"),
+                                              Viewport(
+                                                  0,
+                                                  500,
+                                                  self.notebook.getFrame("test_2").viewport.width,
+                                                  self.notebook.getFrame("test_2").viewport.height - 500
+                                              ))
+        self.gmailFrame.place(x= self.gmailFrame.viewport.left, y= self.gmailFrame.viewport.top)
 
 
     def mainloop(self):

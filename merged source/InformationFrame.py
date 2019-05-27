@@ -1,5 +1,11 @@
 from CustomTkClass import*
 from DataClass import formattedOptionToType
+from GoogleMap import Parsing_KAKAOMAP_Address
+from GoogleMap import make_googlemap_url
+import urllib.request
+import PIL.Image
+import PIL.ImageTk
+import io
 
 class InformationFrame(Frame):
     listboxHeightRatio = 0.4
@@ -11,7 +17,7 @@ class InformationFrame(Frame):
         # UI 생성
         self.initListbox()
         self.initInfomation()
-        self.initMapFrame()
+        self.initMap()
         self.dictDataFromListboxIndex = {}
 
 
@@ -27,7 +33,8 @@ class InformationFrame(Frame):
         self.listbox = tkinter.Listbox(self, width=vpListbox.width)
         self.listbox.place(x=vpListbox.left, y=vpListbox.top,
                            width=vpListbox.width, height=vpListbox.height)
-        self.listbox.bind('<<ListboxSelect>>', self.selectSectionOfListbox)
+        self.listbox.bind('<Double-Button-1>', self.selectSectionOfListbox)
+        #self.listbox.bind('<<ListboxSelect>>', self.selectSectionOfListbox)
 
     def initInfomation(self):
         vpInfoFrame = Viewport(
@@ -42,7 +49,7 @@ class InformationFrame(Frame):
 
 
 
-    def initMapFrame(self):
+    def initMap(self):
         vpMapFrame = Viewport(
             0 + self.viewport.width * InformationFrame.infoWidthRatio,
             0 + self.viewport.height * InformationFrame.listboxHeightRatio,
@@ -51,9 +58,10 @@ class InformationFrame(Frame):
         )
         vpMapFrame.makeElementToInt()
 
-        self.test2 = tkinter.Listbox(self, width=vpMapFrame.width)
-        self.test2.place(x=vpMapFrame.left, y=vpMapFrame.top,
-                         width=vpMapFrame.width, height=vpMapFrame.height)
+        self.map = tkinter.Label(self,  width=vpMapFrame.width, height=vpMapFrame.height, bg="white")
+        self.map.place(x=vpMapFrame.left, y=vpMapFrame.top, anchor="nw")
+
+
 
     def setDataList(self, dataList):
         self.dataList = dataList
@@ -80,11 +88,13 @@ class InformationFrame(Frame):
 
 
 
-    def selectSectionOfListbox(self, n):
-        index = int(self.listbox.curselection()[0])
-        data = self.dictDataFromListboxIndex[index]
-        self.updateSelectedInfo(data)
-        
+    def selectSectionOfListbox(self, eventInfo):
+        if len(self.listbox.curselection()) > 0:
+            index = int(self.listbox.curselection()[0])
+            data = self.dictDataFromListboxIndex[index]
+            self.updateSelectedInfo(data)
+            self.updateSelectedMap(data)
+
 
     def updateSelectedInfo(self, data):
         strDong = formattedOptionToType(data.find("법정동"), str, " ")
@@ -98,6 +108,23 @@ class InformationFrame(Frame):
         self.InfoLabels.deposit.setTextDataLabel(strDeposit)
         self.InfoLabels.monthlyRent.setTextDataLabel(strMonthlyRent)
         self.InfoLabels.areaSize.setTextDataLabel(strAreaSize)
+
+
+    def updateSelectedMap(self, selected):
+        try:
+            strAdress = selected.data["법정동"] + selected.data["지번"]
+            map_url = make_googlemap_url(Parsing_KAKAOMAP_Address(strAdress)[0])
+            with urllib.request.urlopen(map_url) as uFile:
+                rawData = uFile.read()
+            rawImage = PIL.Image.open(io.BytesIO(rawData))
+            mapImage = PIL.ImageTk.PhotoImage(rawImage)
+            self.map.configure(image=mapImage)
+            self.map.image = mapImage
+        except:
+            self.map.configure(image=None)
+            self.map.image = None
+
+
 
 
 
