@@ -89,5 +89,5 @@ class MainFrame:
 
 
 mainframe = MainFrame()
-#DOMReadingManager.readXML()
+DOMReadingManager.readXML()
 mainframe.mainloop()
