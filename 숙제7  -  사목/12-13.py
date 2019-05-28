@@ -225,18 +225,22 @@ class Samoc:
             except:
                 pass
 
+
     def pressed(self, cell):
         if not self.gameEnd:
-            if cell.canPush():
+            dstCell = self.getPushableCellAtRow(cell.row)
+            if not dstCell == None:
                 if self.turn == PLAYER_O:  # 0 차례
-                    cell.push(PLAYER_O)
+                    dstCell.push(PLAYER_O)
                     self.turnLabel.configure(text="o 차례")
 
                 elif self.turn == PLAYER_X:
-                    cell.push(PLAYER_X)
+                    dstCell.push(PLAYER_X)
                     self.turnLabel.configure(text="x 차례")
 
                 self.turn = not self.turn
+
+
 
             isGameEnd = self.checkGameEnd()
             if isGameEnd == END_WIN_O:
@@ -253,9 +257,11 @@ class Samoc:
 
 
 
-
-
-
+    def getPushableCellAtRow(self, row):
+        for c in range(GAME_COL-1, 0-1, -1):
+            if self.cellList[c * GAME_ROW + row].canPush():
+                return self.cellList[c * GAME_ROW + row]
+        return None
 
 
 
