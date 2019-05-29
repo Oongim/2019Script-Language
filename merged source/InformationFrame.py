@@ -9,19 +9,28 @@ import io
 
 class InformationFrame(Frame):
     listboxHeightRatio = 0.4
+    infoSectionHeightRatio = 0.5
     infoWidthRatio = 0.5
+    # sb : selectButton
+    sbWidthRatio = 0.1
+    sbHeightRatio = 0.2
+
     def __init__(self, mainframe, window, viewport):
         super(InformationFrame, self).__init__(window, viewport)
         self.mainframe = mainframe
+        self.dataList = []
+        self.dataSelected = None
+        self.mapImage = None
 
         # UI 생성
-        self.initListbox()
-        self.initInfomation()
-        self.initMap()
+        self.createListbox()
+        self.createInfoSection()
+        self.createMap()
         self.dictDataFromListboxIndex = {}
 
 
-    def initListbox(self):
+
+    def createListbox(self):
         vpListbox = Viewport(
             0,
             0,
@@ -36,20 +45,20 @@ class InformationFrame(Frame):
         self.listbox.bind('<Double-Button-1>', self.selectSectionOfListbox)
         #self.listbox.bind('<<ListboxSelect>>', self.selectSectionOfListbox)
 
-    def initInfomation(self):
+
+    def createInfoSection(self):
         vpInfoFrame = Viewport(
             0,
             0 + self.viewport.height * InformationFrame.listboxHeightRatio,
             self.viewport.width * InformationFrame.infoWidthRatio,
-            self.viewport.height * (1-InformationFrame.listboxHeightRatio)
+            self.viewport.height * InformationFrame.infoSectionHeightRatio
         )
         vpInfoFrame.makeElementToInt()
 
         self.InfoLabels = InfoLabels(self, vpInfoFrame)
 
 
-
-    def initMap(self):
+    def createMap(self):
         vpMapFrame = Viewport(
             0 + self.viewport.width * InformationFrame.infoWidthRatio,
             0 + self.viewport.height * InformationFrame.listboxHeightRatio,
@@ -58,10 +67,17 @@ class InformationFrame(Frame):
         )
         vpMapFrame.makeElementToInt()
 
-        self.map = tkinter.Label(self,  width=vpMapFrame.width, height=vpMapFrame.height, bg="white")
+        self.map = tkinter.Label(self,  width=vpMapFrame.width, height=vpMapFrame.height, bg="white", image=self.mapImage)
         self.map.place(x=vpMapFrame.left, y=vpMapFrame.top, anchor="nw")
 
 
+
+    def procSetData(self, dataList):
+        self.setDataList(dataList)
+        self.updateListbox()
+        self.dataSelected = None
+        self.initSelectedInfo()
+        self.updateSelectedMap()
 
     def setDataList(self, dataList):
         self.dataList = dataList
@@ -86,14 +102,21 @@ class InformationFrame(Frame):
 
 
 
-
-
     def selectSectionOfListbox(self, eventInfo):
         if len(self.listbox.curselection()) > 0:
             index = int(self.listbox.curselection()[0])
-            data = self.dictDataFromListboxIndex[index]
-            self.updateSelectedInfo(data)
-            self.updateSelectedMap(data)
+            self.dataSelected = self.dictDataFromListboxIndex[index]
+            self.updateSelectedInfo(self.dataSelected)
+            self.updateSelectedMap()
+
+
+    def initSelectedInfo(self):
+        self.InfoLabels.buildYear.setTextDataLabel("")
+        self.InfoLabels.tradeDate.setTextDataLabel("")
+        self.InfoLabels.dong.setTextDataLabel("")
+        self.InfoLabels.deposit.setTextDataLabel("")
+        self.InfoLabels.monthlyRent.setTextDataLabel("")
+        self.InfoLabels.areaSize.setTextDataLabel("")
 
 
     def updateSelectedInfo(self, data):
@@ -110,19 +133,105 @@ class InformationFrame(Frame):
         self.InfoLabels.areaSize.setTextDataLabel(strAreaSize)
 
 
-    def updateSelectedMap(self, selected):
+    def updateSelectedMap(self):
         try:
-            strAdress = selected.data["법정동"] + selected.data["지번"]
+            strAdress = self.dataSelected.data["법정동"] + self.dataSelected.data["지번"]
             map_url = make_googlemap_url(Parsing_KAKAOMAP_Address(strAdress)[0])
             with urllib.request.urlopen(map_url) as uFile:
                 rawData = uFile.read()
             rawImage = PIL.Image.open(io.BytesIO(rawData))
-            mapImage = PIL.ImageTk.PhotoImage(rawImage)
-            self.map.configure(image=mapImage)
-            self.map.image = mapImage
+            self.mapImage = PIL.ImageTk.PhotoImage(rawImage)
+            self.map["image"] = self.mapImage
         except:
-            self.map.configure(image=None)
-            self.map.image = None
+            self.mapImage = None
+            self.map["image"] = self.mapImage
+
+
+
+
+class SearchResultInfoFrame(InformationFrame):
+    def __init__(self, mainframe, window, viewport):
+        super(SearchResultInfoFrame, self).__init__(mainframe, window, viewport)
+        self.createSelectButton()
+
+
+    def createSelectButton(self):
+        vpSectionButton = Viewport(0, 0, 0, 0)
+        vpSectionButton.right = 0 + self.viewport.width * InformationFrame.infoWidthRatio
+        vpSectionButton.bottom = 0 + self.viewport.height
+
+        self.selectButton = tkinter.Button(self, text="찜 하기",
+                                           command=lambda: self.addDataToSelectedList())
+        self.selectButton.place(x=vpSectionButton.right, y=vpSectionButton.bottom, anchor="se")
+        self.updateSelectButtonState()
+
+
+    def procSetData(self, dataList):
+        super().procSetData(dataList)
+        self.updateSelectButtonState()
+
+
+    def selectSectionOfListbox(self, eventInfo):
+        super().selectSectionOfListbox(eventInfo)
+        self.updateSelectButtonState()
+
+
+    def updateSelectButtonState(self):
+        if self.dataSelected is not None:
+            if not self.mainframe.reciveEvent(isDataInSelectedList=self.dataSelected):
+                self.selectButton['state'] = "normal"
+                return
+        self.selectButton['state'] = 'disabled'
+
+
+    def addDataToSelectedList(self):
+        self.mainframe.reciveEvent(addDataSelected=self.dataSelected)
+        self.updateSelectButtonState()
+
+
+
+class SelectionInfoFrame(InformationFrame):
+    def __init__(self, mainframe, window, viewport):
+        super(SelectionInfoFrame, self).__init__(mainframe, window, viewport)
+        self.createSelectButton()
+
+
+    def createSelectButton(self):
+        vpSectionButton = Viewport(0, 0, 0, 0)
+        vpSectionButton.right = 0 + self.viewport.width * InformationFrame.infoWidthRatio
+        vpSectionButton.bottom = 0 + self.viewport.height
+
+        self.selectButton = tkinter.Button(self, text="목록에서 삭제",
+                                           command=lambda: self.deleteDataFromSelectedList())
+        self.selectButton.place(x=vpSectionButton.right, y=vpSectionButton.bottom, anchor="se")
+        self.updateSelectButtonState()
+
+
+    def procSetData(self, dataList):
+        super().procSetData(dataList)
+        self.updateSelectButtonState()
+
+
+    def selectSectionOfListbox(self, eventInfo):
+        super().selectSectionOfListbox(eventInfo)
+        self.updateSelectButtonState()
+
+
+    def updateSelectButtonState(self):
+        if self.dataSelected is not None:
+            self.selectButton['state'] = "normal"
+            return
+        self.selectButton['state'] = 'disabled'
+
+
+    def deleteDataFromSelectedList(self):
+        self.dataList.remove(self.dataSelected)
+        self.procSetData(self.dataList)
+        # self.dataSelected는 procSetData()에서 None으로 처리된다.
+
+
+    def isDataInSelectedList(self, data):
+        return data in self.dataList
 
 
 

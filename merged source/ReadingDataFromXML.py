@@ -24,7 +24,7 @@ def getDataesSmallApartment(LAWD_CD, DEAL_YMD):
                           "&LAWD_CD={LAWD_CD}&DEAL_YMD={DEAL_YMD}".format(LAWD_CD=LAWD_CD, DEAL_YMD=DEAL_YMD)
 
     dataes = getDictDataesFromURLOpenAPI(smallApartmentURL)
-    return [DataSmallApartment(**data) for data in dataes]
+    return [DataSmallApartment(data) for data in dataes]
 
 
 def getDataesSingleDetachedHouse(LAWD_CD, DEAL_YMD):
@@ -35,7 +35,7 @@ def getDataesSingleDetachedHouse(LAWD_CD, DEAL_YMD):
 
 
     dataes = getDictDataesFromURLOpenAPI(singleDetachedHouseURL)
-    return [DataSingleDetachedHouse(**data) for data in dataes]
+    return [DataSingleDetachedHouse(data) for data in dataes]
 
 
 
@@ -86,7 +86,8 @@ class DOMReadingManager:
         # 일단은 임시로 고정값을 설정해 둠.
         DOMReadingManager.dataesSmallApartment.clear()
         DOMReadingManager.dataesSingleDetachedHouse.clear()
-        strMonths = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"]
+        #strMonths = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"]
+        strMonths = ["12"]
         LAWD_CD = 41390  # 시흥시
         DEAL_YMDs = [int(str(year) + strMonth) for year in range(2018, 2018 + 1) for strMonth in strMonths]
 

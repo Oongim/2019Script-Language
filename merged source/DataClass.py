@@ -1,7 +1,10 @@
 
 class DataInterface:
+    initNumTag = 0
     def __init__(self, data):
         self.data = data
+        self.tag = DataInterface.initNumTag
+        DataInterface.initNumTag += 1
 
     def findWithOriginKey(self, originKey):
         if originKey in self.data.keys():
@@ -12,7 +15,7 @@ class DataInterface:
 
 # 연립 다세대
 class DataSmallApartment(DataInterface):
-    def __init__(self, **data):
+    def __init__(self, data):
         super(DataSmallApartment, self).__init__(data)
 
     def find(self, key):
@@ -26,7 +29,7 @@ class DataSmallApartment(DataInterface):
 
 # 단독 다가구
 class DataSingleDetachedHouse(DataInterface):
-    def __init__(self, **data):
+    def __init__(self, data):
         super(DataSingleDetachedHouse, self).__init__(data)
 
     def find(self, key):

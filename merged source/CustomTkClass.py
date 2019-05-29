@@ -45,6 +45,7 @@ class Window(tkinter.Tk):
 
 class Notebook(tkinter.ttk.Notebook):
     upperGab = 15
+    tabHeight = 35
     def __init__(self, window):
         self.window = window
         super(Notebook, self).__init__(window)
@@ -108,7 +109,7 @@ class TabFrame(Frame):
 
     def onVisibility(self):
         # 노트북의 크기 전환은 할 필요없음. 자동으로 되는 듯
-        self.window.resize(width=self.viewport.width, height=self.viewport.height+Notebook.upperGab)
+        self.window.resize(width=self.viewport.width, height=self.viewport.height+Notebook.tabHeight)
 
 
 class DescLabel:
