@@ -33,3 +33,13 @@ class GraphFrame(Frame):
             self.canvas.create_text(i * (self.width - 10) / dataNum + (self.width - 10) / dataNum / 2 + 5,
                                     (dataNum - self.sampleNumList[self.optionvalue.get()][i]) * (self.canvasHeight - 10) / dataNum - (
                                             self.canvasHeight - 10) / dataNum / 2 + 10, text=(self.sampleNumList[self.optionvalue.get()][i]),tags="grim")
+
+
+
+    def updateGragh(self, dataes):
+        # 선택목록의 데이터들에서 삭제 혹은 추가가 일어날 때, 호출된다.
+        # 이 함수에서는 그래프를 새로 그려야 한다.
+        # 업데이트된 새로운 데이터 리스트는 인자로 받는 dates 이다.
+        pass
+
+

@@ -55,6 +55,12 @@ CONST_HOUSE_TYPE_SMALL_APARTMENT = "연립 다세대"
 CONST_HOUSE_TYPE_SINGLE_DETACHED_HOUSE = "단독 다가구"
 
 class DOMReadingManager:
+    LAWD_CD = 41390
+    strYearsList = ["2018"]
+    strMonthsList = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"]
+
+
+    # strMonthsList = ["12"]
     houseType = ActivableValue(False, CONST_HOUSE_TYPE_ALL)
     addressDong = ActivableValue(False, "")
     minMonthlyRent = ActivableValue(False, 0)
@@ -81,23 +87,29 @@ class DOMReadingManager:
 
 
     @staticmethod
+    def getDateList():
+        return [int(year + strMonth) for year in DOMReadingManager.strYearsList for strMonth in
+                     DOMReadingManager.strMonthsList]
+
+    @staticmethod
+    def getKeyPairForReading():
+        for DEAL_YMD in DOMReadingManager.getDateList():
+            yield [DOMReadingManager.LAWD_CD, DEAL_YMD]
+
+    @staticmethod
     def readXML():
         # 법정동string으로부터 지번코드로 변경하는 처리를 추가해야한다.
         # 일단은 임시로 고정값을 설정해 둠.
         DOMReadingManager.dataesSmallApartment.clear()
         DOMReadingManager.dataesSingleDetachedHouse.clear()
-        strMonths = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"]
-        #strMonths = ["12"]
-        LAWD_CD = 41390  # 시흥시
-        DEAL_YMDs = [int(str(year) + strMonth) for year in range(2018, 2018 + 1) for strMonth in strMonths]
 
-        for DEAL_YMD in DEAL_YMDs:
+        for keyPair in DOMReadingManager.getKeyPairForReading():
             DOMReadingManager.dataesSmallApartment \
-                += getDataesSmallApartment(LAWD_CD, DEAL_YMD)
+                += getDataesSmallApartment(*keyPair)
             DOMReadingManager.dataesSingleDetachedHouse \
-                += getDataesSingleDetachedHouse(LAWD_CD, DEAL_YMD)
-            print("LAWD_CD: {LAWD_CD}     DEAL_YMD: {DEAL_YMD}".format(LAWD_CD=LAWD_CD, DEAL_YMD=DEAL_YMD))
-            yield DEAL_YMD
+                += getDataesSingleDetachedHouse(*keyPair)
+            print("LAWD_CD: {LAWD_CD}     DEAL_YMD: {DEAL_YMD}".format(LAWD_CD=keyPair[0], DEAL_YMD=keyPair[1]))
+            yield keyPair[1]    # DEAL_YMDs
 
 
     @staticmethod

@@ -27,7 +27,7 @@ class Window(tkinter.Tk):
     def __init__(self, left=200, top=200, width=1280, height=720):
         super(Window, self).__init__()
         self.resizable(False, False)
-        self.viewport = Viewport()
+        self.viewport = Viewport(left, top, width, height)
         self.resize(width=width, height=height, left=left, top=top)
 
 

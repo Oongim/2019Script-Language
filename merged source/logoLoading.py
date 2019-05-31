@@ -1,18 +1,17 @@
 import tkinter
-import ReadingDataFromXML
+from ReadingDataFromXML import DOMReadingManager
 
 class logoLoading:
-
-    def __init__(self,loadingData=True):
-
+    def __init__(self):
         self.opacity = 1
         self.window = tkinter.Tk()
         self.isLoading = False
         self.canvas = 0
         self.count = 0
-        self.generator = ReadingDataFromXML.DOMReadingManager.readXML()
+        self.strDateListSize = len(DOMReadingManager.getDateList())
+        self.generatorDate = DOMReadingManager.readXML()
 
-        self.isLoading=loadingData
+        #self.isLoading=loadingData
         self.window.attributes('-alpha',self.opacity)
         self.window.image=tkinter.PhotoImage(file='Image/logo.png')
         tkinter.Label(self.window, image=self.window.image, bg='white').pack()
@@ -25,29 +24,46 @@ class logoLoading:
         self.window.wm_attributes("-transparentcolor", "white")
         self.opacity -= 0.01
         self.window.attributes('-alpha', self.opacity)
-        self.myupdate()
+        self.update()
         self.window.mainloop()
 
-    def myupdate(self):
-        if self.isLoading and self.opacity <= 0.98:
-            date=str(next(self.generator))
-            if date=="201812":
-                self.isLoading=False
-            self.IncreaseLoadingBar(date)
+    def update(self):
+        for date in self.generatorDate:
+            self.IncreaseLoadingBar(str(date))
+            self.window.update()
+        self.fadeout()
 
-        elif self.opacity <= 0:
+    def fadeout(self):
+        if self.opacity <= 0:
             self.window.destroy()
             return
-        else:
-            self.opacity -= 0.01
-            self.window.attributes('-alpha', self.opacity)
-        self.window.after(20, self.myupdate)
+        self.opacity -= 0.01
+        self.window.attributes('-alpha', self.opacity)
+        self.window.after(20, self.fadeout)
+
+
+    # def myUpdate(self):
+    #     if self.isLoading and self.opacity <= 0.98:
+    #         date=str(next(self.generatorDate))
+    #         if date=="201812":
+    #             self.isLoading=False
+    #         self.IncreaseLoadingBar(date)
+    #
+    #     elif self.opacity <= 0:
+    #         self.window.destroy()
+    #         return
+    #     else:
+    #         self.opacity -= 0.01
+    #         self.window.attributes('-alpha', self.opacity)
+    #     self.window.after(20, self.myUpdate)
 
 
     def IncreaseLoadingBar(self,DataDate):
         self.count += 1
         self.canvas.delete("grim")
-        self.canvas.create_rectangle(0,0,self.window.image.width()/12*self.count,20,fill='red',tag="grim")
+        self.canvas.create_rectangle(0,0,self.window.image.width()/self.strDateListSize*self.count, 20,
+                                     fill='red',tag="grim")
+
         TempFont = tkinter.font.Font(self.window, size=15, weight='bold', family='Consolas')
         text=DataDate[:4]+"."+DataDate[4:]+". Data Complete"
         self.canvas.create_text(self.window.image.width()/2,10,font=TempFont,text=text,tag="grim",fill='yellow')

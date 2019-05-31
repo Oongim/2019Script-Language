@@ -227,6 +227,7 @@ class SelectionInfoFrame(InformationFrame):
     def deleteDataFromSelectedList(self):
         self.dataList.remove(self.dataSelected)
         self.procSetData(self.dataList)
+        self.mainframe.reciveEvent(delDataFromSection=None)
         # self.dataSelected는 procSetData()에서 None으로 처리된다.
 
 
