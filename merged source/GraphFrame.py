@@ -24,16 +24,22 @@ class GraphFrame(Frame):
 
     def drawGraph(self):
         self.canvas.delete("grim")
-        dataNum=len(self.sampleNumList[self.optionvalue.get()])
+        dataNum = len(self.sampleNumList[self.optionvalue.get()])
+        maxHeight=max(self.sampleNumList[self.optionvalue.get()])
         for i in range(dataNum):
-            self.canvas.create_rectangle(i * (self.width - 10) / dataNum + 5,
-                                        (dataNum - self.sampleNumList[self.optionvalue.get()][i]) * (self.canvasHeight - 10) / dataNum + 10,
-                                        (i + 1) * (self.width - 10) / dataNum + 5, self.canvasHeight, fill='black',tag="grim")
+            self.canvas.create_rectangle(i * (self.width - 10) / dataNum + 7,
+                                         (maxHeight - self.sampleNumList[self.optionvalue.get()][i]) * (
+                                                     self.canvasHeight - 36) / maxHeight+15,
+                                         (i + 1) * (self.width - 10) / dataNum + 5, self.canvasHeight - 20,
+                                         fill='black', tag="grim",activefill='blue')
 
-            self.canvas.create_text(i * (self.width - 10) / dataNum + (self.width - 10) / dataNum / 2 + 5,
-                                    (dataNum - self.sampleNumList[self.optionvalue.get()][i]) * (self.canvasHeight - 10) / dataNum - (
-                                            self.canvasHeight - 10) / dataNum / 2 + 10, text=(self.sampleNumList[self.optionvalue.get()][i]),tags="grim")
-
+            self.canvas.create_text(i * (self.width - 10) / dataNum + (self.width - 10) / dataNum / 2 + 6,
+                                    (maxHeight - self.sampleNumList[self.optionvalue.get()][i]) * (
+                                            self.canvasHeight - 36) / maxHeight + 7,
+                                    text=(self.sampleNumList[self.optionvalue.get()][i]), tags="grim")
+            self.canvas.create_text(i * (self.width - 10) / dataNum + (self.width - 10) / dataNum / 2 + 6,
+                                    (self.canvasHeight - 10),
+                                    text=i, tags="grim")
 
 
     def updateGragh(self, dataes):

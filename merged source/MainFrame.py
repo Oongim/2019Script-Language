@@ -6,6 +6,7 @@ from GmailAndXMLSaveLoadFrame import GmailAndXMLSaveLoadFrame
 from GraphFrame import GraphFrame
 from SettingFrame import SettingFrmae
 from logoLoading import logoLoading
+import os
 
 mfViewport = Viewport(100, 100, 800, 500)       # mainframeViewport
 tab1Viewport = Viewport(0, 0, mfViewport.width, mfViewport.height)
@@ -20,6 +21,10 @@ class MainFrame:
     def __init__(self):
         self.window = Window()
         self.window.resize(mfViewport.width, mfViewport.height, mfViewport.left, mfViewport.top)
+
+        self.window.title("산기대방구하기")
+        self.window.iconbitmap(os.getcwd() + '\Image\logo_icon.ico')
+
         self.buildNotebook()
         self.dataSelectedList = []
         self.id = ""
