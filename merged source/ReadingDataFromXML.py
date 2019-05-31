@@ -86,8 +86,8 @@ class DOMReadingManager:
         # 일단은 임시로 고정값을 설정해 둠.
         DOMReadingManager.dataesSmallApartment.clear()
         DOMReadingManager.dataesSingleDetachedHouse.clear()
-        #strMonths = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"]
-        strMonths = ["12"]
+        strMonths = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"]
+        #strMonths = ["12"]
         LAWD_CD = 41390  # 시흥시
         DEAL_YMDs = [int(str(year) + strMonth) for year in range(2018, 2018 + 1) for strMonth in strMonths]
 
@@ -97,7 +97,7 @@ class DOMReadingManager:
             DOMReadingManager.dataesSingleDetachedHouse \
                 += getDataesSingleDetachedHouse(LAWD_CD, DEAL_YMD)
             print("LAWD_CD: {LAWD_CD}     DEAL_YMD: {DEAL_YMD}".format(LAWD_CD=LAWD_CD, DEAL_YMD=DEAL_YMD))
-
+            yield DEAL_YMD
 
 
     @staticmethod
@@ -171,12 +171,12 @@ class DOMReadingManager:
         DOMReadingManager.setMaxDeposit(*optionList[5])
         DOMReadingManager.setMinAreaSize(*optionList[6])
         DOMReadingManager.setMaxAreaSize(*optionList[7])
-      
-      
+
+
     @staticmethod
     def setHouseType(bActivation, houseType = CONST_HOUSE_TYPE_ALL):
         if bActivation:
-            if not (houseType == CONST_HOUSE_TYPE_SMALL_APARTMENT 
+            if not (houseType == CONST_HOUSE_TYPE_SMALL_APARTMENT
                     or houseType == CONST_HOUSE_TYPE_SINGLE_DETACHED_HOUSE
                     or houseType == CONST_HOUSE_TYPE_ALL):
                 raise Error.NotUsableValue()

@@ -16,7 +16,7 @@ class GmailAndXMLSaveLoadFrame(Frame):
         gmailframe.pack()
         TempFont = tkinter.font.Font(self, size=15, weight='bold', family='Consolas')
         tkinter.Label(gmailframe,   font=TempFont,text="Gmail   ").pack(side=tkinter.LEFT,anchor="w")
-        self.gamilentry=tkinter.Entry(gmailframe, width=int((width-60)/10/2), text="Gmail")
+        self.gamilentry = tkinter.Entry(gmailframe, width=int((width - 160) / 10), text="Gmail")
         self.gamilentry.pack(side=tkinter.LEFT)
         tkinter.Button(gmailframe, text="보내기",command=self.sendEmail).pack(side=tkinter.RIGHT)
 

@@ -3,12 +3,14 @@ from SearchFrame import *
 from InformationFrame import *
 from ReadingDataFromXML import *
 from GmailAndXMLSaveLoadFrame import GmailAndXMLSaveLoadFrame
-
+from GraphFrame import *
+from logoLoading import *
 
 
 class MainFrame:
     def __init__(self):
         self.window = Window()
+        self.window.resize(800, 500,100,100)
         self.buildNotebook()
         self.dataSelectedList = []
 
@@ -38,6 +40,13 @@ class MainFrame:
                                                 500,
                                                 500))
         self.selectionInfoFrame.place(x= self.selectionInfoFrame.viewport.left, y =  self.selectionInfoFrame.viewport.top)
+        self.graphFrame = GraphFrame(self, self.notebook.getFrame("test_2"),
+                                Viewport(
+                                    500,
+                                    0,
+                                    300,
+                                    500))
+        self.graphFrame.place(x= self.graphFrame.viewport.left, y= self.graphFrame.viewport.top)
         self.gmailFrame = GmailAndXMLSaveLoadFrame(self, self.notebook.getFrame("test_2"),
                                               Viewport(
                                                   0,
@@ -57,7 +66,7 @@ class MainFrame:
         # self.tabs.addTab(self.window, self.window.viewport, "test_1")
         # self.tabs.addTab(self.window, self.window.viewport, "test_2")
         tab1Viewport = Viewport(0, 0, 800, 500)
-        tab2Viewport = Viewport(0, 0, 800, 700)
+        tab2Viewport = Viewport(0, 0, 800, 560)
 
 
         self.notebook.addTab(self.window, tab1Viewport, "test_1")
@@ -76,9 +85,6 @@ class MainFrame:
             elif event =="isDataInSelectedList":
                 return self.selectionInfoFrame.isDataInSelectedList(eventData)
 
-
-
-
     def isDataInSelectedList(self, tag):
         for data in self.dataSelectedList:
             if data.tag == tag:
@@ -87,10 +93,6 @@ class MainFrame:
 
 
 
-
-
-
-
+logoLoading(False)
 mainframe = MainFrame()
-DOMReadingManager.readXML()
 mainframe.mainloop()
