@@ -8,35 +8,42 @@ class GraphFrame(Frame):
         self.mainframe = mainframe
         self.width = viewport.width
         self.height = viewport.height
-
-        self.sampleNumList=[[x for x in range(20)],random.sample([x for x in range(1,25)],24),[x for x in range(30)]]
+        self.count=0
+        self.sampleNumList=[[x for x in range(20)],random.sample([x for x in range(1,100)],24),[x for x in range(30)]]
         optionheight=self.height/5
         self.optionvalue=tkinter.IntVar()
         TempFont = tkinter.font.Font(self, size=20, weight='bold', family='Consolas')
 
         tkinter.Label(self, font=TempFont, text="그래프 옵션").place(x=viewport.width/2,y=20,anchor="center")
-        tkinter.Radiobutton(self,text="월세",variable=self.optionvalue,value=MONTHLYRENT,command=self.drawGraph,state='normal').place(x=self.width/2-self.width/4,y=optionheight,anchor='center')
-        tkinter.Radiobutton(self,text="보증금",variable=self.optionvalue,value=DEPOSIT,command=self.drawGraph).place(x=self.width/2,y=optionheight,anchor='center')
-        tkinter.Radiobutton(self,text="건물면적",variable=self.optionvalue,value=AREASIZE,command=self.drawGraph).place(x=self.width/2+self.width/4,y=optionheight,anchor='center')
+        tkinter.Radiobutton(self,text="월세",variable=self.optionvalue,value=MONTHLYRENT,command=self.update,state='normal').place(x=self.width/2-self.width/4,y=optionheight,anchor='center')
+        tkinter.Radiobutton(self,text="보증금",variable=self.optionvalue,value=DEPOSIT,command=self.update).place(x=self.width/2,y=optionheight,anchor='center')
+        tkinter.Radiobutton(self,text="건물면적",variable=self.optionvalue,value=AREASIZE,command=self.update).place(x=self.width/2+self.width/4,y=optionheight,anchor='center')
         self.canvasHeight=self.height/4*3
         self.canvas=tkinter.Canvas(self, bg="white", width=self.width, height=self.height/4*3)
         self.canvas.place(x=0,y=self.height/4)
+
 
     def drawGraph(self):
         self.canvas.delete("grim")
         dataNum = len(self.sampleNumList[self.optionvalue.get()])
         maxHeight=max(self.sampleNumList[self.optionvalue.get()])
+        minHeight=min(self.sampleNumList[self.optionvalue.get()])
         for i in range(dataNum):
+            if maxHeight is self.sampleNumList[self.optionvalue.get()][i]:
+                color="red"
+            elif minHeight is self.sampleNumList[self.optionvalue.get()][i]:
+                color='blue'
+            else:
+                color="black"
             self.canvas.create_rectangle(i * (self.width - 10) / dataNum + 7,
-                                         (maxHeight - self.sampleNumList[self.optionvalue.get()][i]) * (
-                                                     self.canvasHeight - 36) / maxHeight+15,
+                                         (maxHeight - min(self.count,self.sampleNumList[self.optionvalue.get()][i])) * (self.canvasHeight - 36) / maxHeight+15,
                                          (i + 1) * (self.width - 10) / dataNum + 5, self.canvasHeight - 20,
-                                         fill='black', tag="grim",activefill='blue')
+                                         fill=color, tag="grim",activefill='blue')
 
             self.canvas.create_text(i * (self.width - 10) / dataNum + (self.width - 10) / dataNum / 2 + 6,
-                                    (maxHeight - self.sampleNumList[self.optionvalue.get()][i]) * (
+                                    (maxHeight - min(self.count,self.sampleNumList[self.optionvalue.get()][i])) * (
                                             self.canvasHeight - 36) / maxHeight + 7,
-                                    text=(self.sampleNumList[self.optionvalue.get()][i]), tags="grim")
+                                    text=(min(self.count,self.sampleNumList[self.optionvalue.get()][i])), tags="grim")
             self.canvas.create_text(i * (self.width - 10) / dataNum + (self.width - 10) / dataNum / 2 + 6,
                                     (self.canvasHeight - 10),
                                     text=i, tags="grim")
@@ -49,4 +56,10 @@ class GraphFrame(Frame):
         print(dataes)
         pass
 
-
+    def update(self):
+        if self.count==max(self.sampleNumList[self.optionvalue.get()]):
+            self.count=0
+            return
+        self.count+=1
+        self.drawGraph()
+        self.window.after(10, self.update)
