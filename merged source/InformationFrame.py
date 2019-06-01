@@ -20,7 +20,7 @@ class InformationFrame(Frame):
         self.mainframe = mainframe
         self.dataList = []
         self.dataSelected = None
-        self.mapImage = None
+        self.mapImage = PIL.ImageTk.PhotoImage(PIL.Image.open('Image/nonemap.png'))
 
         # UI 생성
         self.createListbox()
@@ -143,7 +143,7 @@ class InformationFrame(Frame):
             self.mapImage = PIL.ImageTk.PhotoImage(rawImage)
             self.map["image"] = self.mapImage
         except:
-            self.mapImage = None
+            self.mapImage = PIL.ImageTk.PhotoImage(PIL.Image.open('Image/nonemap.png'))
             self.map["image"] = self.mapImage
 
 
