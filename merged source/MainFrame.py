@@ -6,6 +6,7 @@ from GmailAndXMLSaveLoadFrame import GmailAndXMLSaveLoadFrame
 from GraphFrame import GraphFrame
 from SettingFrame import SettingFrmae
 from logoLoading import logoLoading
+from ReadingDataFromXML import XML_SAVE_DIR_NAME
 import os
 
 mfViewport = Viewport(100, 100, 800, 500)       # mainframeViewport
@@ -135,7 +136,9 @@ class MainFrame:
         return False
     
   
-
+ #xml 저장 폴더가 존재하는 지 확인한다. 없으면 만든다.
+if not os.path.isdir(XML_SAVE_DIR_NAME):
+   os.mkdir(XML_SAVE_DIR_NAME)
 
 logoLoading()
 mainframe = MainFrame()
