@@ -10,7 +10,7 @@ class GraphFrame(Frame):
         self.width = viewport.width
         self.height = viewport.height
         self.count=0
-        self.sampleNumList=[[x for x in range(20)],random.sample([x for x in range(1,100)],24),[x for x in range(30)]]
+        self.sampleNumList=[[],[],[]]
         optionheight=self.height/5
         self.optionvalue=tkinter.IntVar()
         TempFont = tkinter.font.Font(self, size=20, weight='bold', family='Consolas')
@@ -28,10 +28,13 @@ class GraphFrame(Frame):
         self.canvasHeight=self.height/4*3
         self.canvas=tkinter.Canvas(self, bg="white", width=self.width, height=self.height/4*3)
         self.canvas.place(x=0,y=self.height/4)
-
+        self.update()
 
     def drawGraph(self):
         self.canvas.delete("grim")
+        if not len(self.sampleNumList[self.optionvalue.get()]):
+            self.canvas.create_text(self.width/2,(self.canvasHeight/2),text="NoneData", tags="grim")
+            return
         dataNum = len(self.sampleNumList[self.optionvalue.get()])
         maxHeight=max(self.sampleNumList[self.optionvalue.get()])
         minHeight=min(self.sampleNumList[self.optionvalue.get()])
@@ -75,6 +78,7 @@ class GraphFrame(Frame):
                 elif value is None:
                     value = formattedOptionToType(data.find("계약면적"), str, ",")
                 self.sampleNumList[i].append(eval(value))
+        self.update()
 
     def update(self):
         if self.count>101:
