@@ -14,6 +14,8 @@ XML_SAVE_DIR_PATH = XML_SAVE_DIR_NAME+"\\"
 SEP_DataesSmallApartment = "SA"
 SEP_SingleDetachedHouse = "SDH"
 
+SERVICE_KEY = "IZ9s8c2tjO0gB4qkVdINj%2Bx0uW5AoM%2FmphJ42H4qz5Djt82Kdt45%2BUiVe9nP2XQCCBcKvvvS4XZo3%2BqIh6DJKg%3D%3D"
+
 
 def readNodesFromURL(url):
     s = urllib.request.urlopen(url)
@@ -47,8 +49,7 @@ def getXMLDataesFromURLOpenAPI(LAWD_CD, DEAL_YMD, makeURL):
 
 def getDataesSmallApartment(LAWD_CD, DEAL_YMD):
     makeSmallApartmentURL = lambda LAWD_CD, DEAL_YMD: "http://openapi.molit.go.kr:8081/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcRHRent?" + \
-                          "serviceKey=e07l%2FJKjgBmbsW47T0yZchUXcgD2K7v9znyVX8WBKIPUkCpdHgMpxIk1nRksfUDBvFCtRk7A%2BH6KKbwYxVXfOQ%3D%3D" + \
-                          "&LAWD_CD={LAWD_CD}&DEAL_YMD={DEAL_YMD}".format(LAWD_CD=LAWD_CD, DEAL_YMD=DEAL_YMD)
+                            "serviceKey={SERVICE_KEY}&LAWD_CD={LAWD_CD}&DEAL_YMD={DEAL_YMD}".format(SERVICE_KEY=SERVICE_KEY, LAWD_CD=LAWD_CD, DEAL_YMD=DEAL_YMD)
 
     dataes = getDictDataes(XML_SAVE_DIR_PATH, SEP_DataesSmallApartment, LAWD_CD, DEAL_YMD, makeSmallApartmentURL)
     return [DataSmallApartment(data) for data in dataes]
@@ -57,8 +58,7 @@ def getDataesSmallApartment(LAWD_CD, DEAL_YMD):
 
 def getDataesSingleDetachedHouse(LAWD_CD, DEAL_YMD):
     makeSingleDetachedHouseURL = lambda LAWD_CD, DEAL_YMD: "http://openapi.molit.go.kr:8081/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcSHRent?" + \
-                             "serviceKey=IZ9s8c2tjO0gB4qkVdINj%2Bx0uW5AoM%2FmphJ42H4qz5Djt82Kdt45%2BUiVe9nP2XQCCBcKvvvS4XZo3%2BqIh6DJKg%3D%3D" + \
-                             "&LAWD_CD={LAWD_CD}&DEAL_YMD={DEAL_YMD}".format(LAWD_CD=LAWD_CD, DEAL_YMD=DEAL_YMD)
+                             "serviceKey={SERVICE_KEY}&LAWD_CD={LAWD_CD}&DEAL_YMD={DEAL_YMD}".format(SERVICE_KEY=SERVICE_KEY, LAWD_CD=LAWD_CD, DEAL_YMD=DEAL_YMD)
 
     dataes = getDictDataes(XML_SAVE_DIR_PATH, SEP_SingleDetachedHouse, LAWD_CD, DEAL_YMD, makeSingleDetachedHouseURL)
     return [DataSingleDetachedHouse(data) for data in dataes]
