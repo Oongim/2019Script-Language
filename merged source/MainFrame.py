@@ -27,9 +27,7 @@ class MainFrame:
 
         self.buildNotebook()
         self.dataSelectedList = []
-        self.id = ""
-        self.pw = ""
-
+   
         self.initTab1()
         self.initTab2()
         self.initTab3()
@@ -123,16 +121,20 @@ class MainFrame:
             elif event =="isDataInSelectedList":
                 return self.selectionInfoFrame.isDataInSelectedList(eventData)
 
-            elif event == "setID_PW":
-                self.id = eventData[0]
-                self.pw = eventData[1]
+            elif event == "LogIn":
+                return self.gmailFrame.logIn(*eventData)
+
+            elif event == "getDataSelectedinSelection":
+                return self.selectionInfoFrame.dataSelected, self.selectionInfoFrame.imgReadData
+
 
     def isDataInSelectedList(self, tag):
         for data in self.dataSelectedList:
             if data.tag == tag:
                 return True
         return False
-
+    
+  
 
 
 logoLoading()

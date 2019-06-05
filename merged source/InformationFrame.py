@@ -20,6 +20,7 @@ class InformationFrame(Frame):
         self.mainframe = mainframe
         self.dataList = []
         self.dataSelected = None
+        self.imgReadData = open('Image\\nonemap.png', 'rb').read()
         self.mapImage = PIL.ImageTk.PhotoImage(PIL.Image.open('Image/nonemap.png'))
 
         # UI 생성
@@ -136,13 +137,15 @@ class InformationFrame(Frame):
     def updateSelectedMap(self):
         try:
             strAdress = self.dataSelected.data["법정동"] + self.dataSelected.data["지번"]
-            map_url = make_googlemap_url(Parsing_KAKAOMAP_Address(strAdress)[0])
+            map_url = make_googlemap_url(Parsing_KAKAOMAP_Address(strAdress)[0])           
             with urllib.request.urlopen(map_url) as uFile:
-                rawData = uFile.read()
-            rawImage = PIL.Image.open(io.BytesIO(rawData))
+                imgSrc = uFile.read()
+            self.imgReadData = imgSrc
+            rawImage = PIL.Image.open(io.BytesIO(imgSrc))
             self.mapImage = PIL.ImageTk.PhotoImage(rawImage)
             self.map["image"] = self.mapImage
         except:
+            self.imgReadData = open('Image\\nonemap.png', 'rb').read()
             self.mapImage = PIL.ImageTk.PhotoImage(PIL.Image.open('Image/nonemap.png'))
             self.map["image"] = self.mapImage
 

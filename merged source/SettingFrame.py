@@ -29,9 +29,8 @@ class SettingFrmae(Frame):
 
     def setID_PW(self, id, pw):
         self.mainframe.reciveEvent(setID_PW=(id, pw))
-
-
-
+        
+  
 
 
 
@@ -82,10 +81,9 @@ class SettingEmailSenderWindow(Window):
 
     def confirm(self):
         self.id = self.idEntry.get()
-        self.mainframe.setID_PW(self.id, self.pw)
+        self.mainframe.mainframe.reciveEvent(LogIn=(self.id, self.pw))
         self.destroy()
-
-
+    
     def destroy(self):
         self.mainframe.settingEmailSenderButton["state"] = "normal"
         super().destroy()

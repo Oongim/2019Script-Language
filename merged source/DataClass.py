@@ -12,6 +12,15 @@ class DataInterface:
         else:
             return None
 
+    def __str__(self):
+        string = ""
+        for key, value in self.data.items():
+            string += "{key} : {value}\n".format(key=key, value=value)
+        return string
+
+
+    def getStringInHtml(self):
+        return  "<br>"+self.__str__().replace("\n", "<br>")
 
 # 연립 다세대
 class DataSmallApartment(DataInterface):
