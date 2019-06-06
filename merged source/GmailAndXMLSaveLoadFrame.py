@@ -1,7 +1,6 @@
 from CustomTkClass import*
 from tkinter.filedialog import askopenfilename,asksaveasfile
 import tkinter.messagebox
-import imghdr
 
 import smtplib
 from email.mime.multipart import MIMEMultipart
@@ -9,6 +8,8 @@ from email.mime.base import MIMEBase
 from email.mime.text import MIMEText
 from email.mime.image import MIMEImage
 from email.message import EmailMessage
+
+import pickle
 
 
 class AccountManager:
@@ -144,11 +145,40 @@ class GmailAndXMLSaveLoadFrame(Frame):
 
 
     def XMLopen(self):
-        filename=askopenfilename()
+        tkinter.messagebox.showwarning("주의", "파일 목록을 읽어오면, 기존의 찜목록에 덧씌워집니다.")
+        filePath = askopenfilename()
 
+        if filePath == "":
+            tkinter.messagebox.showinfo("파일 불러오기 취소", "찜 목록 불러오기를 취소하셨습니다.")
+            return
+
+        with open(filePath, 'rb') as readFP:
+             newSelectionDates = pickle.load(readFP)
+
+        self.mainframe.reciveEvent(setSelectionDataes=newSelectionDates)
+        tkinter.messagebox.showinfo("파일 불러오기", "찜 목록을 불러왔습니다.")
 
     def XMLsave(self):
-        asksaveasfile()
+        selectionDataes = self.mainframe.reciveEvent(getSelectionDataes=None)
+
+        if len(selectionDataes) == 0:
+            tkinter.messagebox.showerror("파일 저장 오류", "파일 저장 실패\n사유 : 찜목록이 비어 있습니다.")
+            return
+
+        fp = asksaveasfile()
+
+        filePath = fp.name
+        fp.close()
+
+        with open(filePath, 'wb+') as saveFP:
+            pickle.dump(selectionDataes, saveFP)
+
+        tkinter.messagebox.showinfo("파일 저장 성공", "찜 목록을 저장하였습니다."
+                                                "\n{path}".format(path=filePath))
+
+
+
+
 
 
 

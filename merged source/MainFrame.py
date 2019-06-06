@@ -117,10 +117,17 @@ class MainFrame:
                 self.graphFrame.updateGragh(self.selectionInfoFrame.dataList)
 
             elif event == "delDataFromSection":
-                self.graphFrame.updateGragh(self.selectionInfoFrame.dataList)
+                self.graphFrame.updateGragh(self.selectionInfoFrame.dataList)                         
 
             elif event =="isDataInSelectedList":
                 return self.selectionInfoFrame.isDataInSelectedList(eventData)
+            
+            elif event =="getSelectionDataes":
+                return self.selectionInfoFrame.dataList
+
+            elif event == "setSelectionDataes":
+                self.selectionInfoFrame.procSetData(eventData)
+                self.graphFrame.updateGragh(self.selectionInfoFrame.dataList)
 
             elif event == "LogIn":
                 return self.gmailFrame.logIn(*eventData)
