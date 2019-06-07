@@ -94,7 +94,7 @@ class GmailAndXMLSaveLoadFrame(Frame):
         xmlframe = tkinter.Frame(setframe)
         xmlframe.pack(anchor="w",fill="x")
         TempFont = tkinter.font.Font(self, size=15, weight='bold', family='Consolas')
-        tkinter.Label(xmlframe,font=TempFont, text="XML 파일").pack(side=tkinter.LEFT)
+        tkinter.Label(xmlframe,font=TempFont, text="찜목록 저장 파일").pack(side=tkinter.LEFT)
         tkinter.Button(xmlframe, text="불러오기",command=self.XMLopen).pack(side=tkinter.LEFT)
         tkinter.Button(xmlframe, text="내보내기",command=self.XMLsave).pack(side=tkinter.LEFT)
 

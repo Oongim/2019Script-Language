@@ -96,10 +96,11 @@ class InformationFrame(Frame):
         index = 0
         for data in self.dataList:
             self.dictDataFromListboxIndex[index] = data
-            index += 1
-            dataString = "동 : {동}   월세 : {월세}만원   보증금 : {보증금}만원   면적 : {면적}m2".format(
-                   동=data.find("법정동"), 월세=data.find("월세금액"), 보증금=data.find("보증금액"), 면적=data.find("면적"))
+            dataString = "[{index}]   동 : {동}   월세 : {월세}만원   보증금 : {보증금}만원   면적 : {면적}m2".format(
+                   index=index, 동=data.find("법정동"), 월세=data.find("월세금액"), 보증금=data.find("보증금액"), 면적=data.find("면적"))
+
             self.listbox.insert(index, dataString)
+            index += 1
 
 
 

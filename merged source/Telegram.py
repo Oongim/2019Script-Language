@@ -1,7 +1,6 @@
 import telepot
 import traceback
 import sys
-import MainFrame
 from GoogleMap import Parsing_KAKAOMAP_Address,make_googlemap_url
 import urllib.request
 import PIL.Image
@@ -16,6 +15,9 @@ class Telegram:
         self.bot.sendMessage('759465478', '안녕')
         self.bot.message_loop(self.handle)
 
+    def setMainframe(self, mainframe):
+        self.mainframe = mainframe
+
     def sendMessage(self,user, msg,photo=None):
         print(photo)
         try:
@@ -27,7 +29,7 @@ class Telegram:
             traceback.print_exc(file=sys.stdout)
 
     def replyAptData(self, user):
-        res_list = MainFrame.mainframe.selectionInfoFrame.dataList
+        res_list = self.mainframe.reciveEvent(getSelectionDataes=None)
         if len(res_list) is 0:
             self.sendMessage( user, '찜목록에 데이터가 없습니다.' )
             return

@@ -14,9 +14,9 @@ tab1Viewport = Viewport(0, 0, mfViewport.width, mfViewport.height)
 tab2Viewport = Viewport(0, 0, mfViewport.width, mfViewport.height + 60)  # 메일 보내는 프레임의 height가 약 60
 tab3Viewport = Viewport(0, 0, mfViewport.width, mfViewport.height)
 
-tab1_name = "test_1"
-tab2_name = "test_2"
-tab3_name = "test_3"
+tab1_name = "검색"
+tab2_name = "찜목록"
+tab3_name = "설정"
 
 class MainFrame:
     def __init__(self):
@@ -144,6 +144,7 @@ class MainFrame:
 if not os.path.isdir(XML_SAVE_DIR_NAME):
    os.mkdir(XML_SAVE_DIR_NAME)
 
-logoLoading()
+logoManager = logoLoading()
 mainframe = MainFrame()
+logoManager.telegram.setMainframe(mainframe)
 mainframe.mainloop()
