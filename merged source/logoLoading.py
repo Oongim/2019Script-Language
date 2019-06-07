@@ -1,4 +1,5 @@
 import tkinter
+from Telegram import *
 from ReadingDataFromXML import DOMReadingManager
 
 class logoLoading:
@@ -31,6 +32,9 @@ class logoLoading:
         for date in self.generatorDate:
             self.IncreaseLoadingBar(str(date))
             self.window.update()
+
+        self.telegram=Telegram()
+        self.IncreaseLoadingBar("Telegram Running")
         self.fadeout()
 
     def fadeout(self):
@@ -41,29 +45,15 @@ class logoLoading:
         self.window.attributes('-alpha', self.opacity)
         self.window.after(20, self.fadeout)
 
-
-    # def myUpdate(self):
-    #     if self.isLoading and self.opacity <= 0.98:
-    #         date=str(next(self.generatorDate))
-    #         if date=="201812":
-    #             self.isLoading=False
-    #         self.IncreaseLoadingBar(date)
-    #
-    #     elif self.opacity <= 0:
-    #         self.window.destroy()
-    #         return
-    #     else:
-    #         self.opacity -= 0.01
-    #         self.window.attributes('-alpha', self.opacity)
-    #     self.window.after(20, self.myUpdate)
-
-
-    def IncreaseLoadingBar(self,DataDate):
+    def IncreaseLoadingBar(self,str):
         self.count += 1
         self.canvas.delete("grim")
-        self.canvas.create_rectangle(0,0,self.window.image.width()/self.strDateListSize*self.count, 20,
+        self.canvas.create_rectangle(0,0,self.window.image.width()/(self.strDateListSize+1)*self.count, 20,
                                      fill='red',tag="grim")
 
         TempFont = tkinter.font.Font(self.window, size=15, weight='bold', family='Consolas')
-        text=DataDate[:4]+"."+DataDate[4:]+". Data Complete"
+        if str is "Telegram Running":
+            text="Telegram Running"
+        else:
+            text=str[:4]+"."+str[4:]+". Data Complete"
         self.canvas.create_text(self.window.image.width()/2,10,font=TempFont,text=text,tag="grim",fill='yellow')

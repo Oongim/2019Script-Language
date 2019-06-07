@@ -213,7 +213,6 @@ class SelectionInfoFrame(InformationFrame):
     def procSetData(self, dataList):
         super().procSetData(dataList)
         self.updateSelectButtonState()
-        self.mainframe.reciveEvent(updateAtSearchResultInfoFrame=self.dataList)
 
 
     def selectSectionOfListbox(self, eventInfo):
@@ -229,7 +228,7 @@ class SelectionInfoFrame(InformationFrame):
 
 
     def deleteDataFromSelectedList(self):
-        self.dataList.remove(self.dataSelected)      
+        self.dataList.remove(self.dataSelected)
         self.procSetData(self.dataList)
         self.mainframe.reciveEvent(delDataFromSection=None)
         # self.dataSelected는 procSetData()에서 None으로 처리된다.

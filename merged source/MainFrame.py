@@ -33,9 +33,6 @@ class MainFrame:
         self.initTab2()
         self.initTab3()
 
-
-
-
     def mainloop(self):
         self.window.mainloop()
 
@@ -117,10 +114,7 @@ class MainFrame:
                 self.graphFrame.updateGragh(self.selectionInfoFrame.dataList)
 
             elif event == "delDataFromSection":
-                self.graphFrame.updateGragh(self.selectionInfoFrame.dataList)
-
-            elif event == "updateAtSearchResultInfoFrame":
-                self.infoFrame.updateSelectButtonState()
+                self.graphFrame.updateGragh(self.selectionInfoFrame.dataList)                         
 
             elif event =="isDataInSelectedList":
                 return self.selectionInfoFrame.isDataInSelectedList(eventData)
@@ -139,12 +133,11 @@ class MainFrame:
                 return self.selectionInfoFrame.dataSelected, self.selectionInfoFrame.imgReadData
 
 
-    ## 문제 생길 시, 확인 바람
-    # def isDataInSelectedList(self, tag):
-    #     for data in self.dataSelectedList:
-    #         if data.tag == tag:
-    #             return True
-    #     return False
+    def isDataInSelectedList(self, tag):
+        for data in self.dataSelectedList:
+            if data.tag == tag:
+                return True
+        return False
     
   
  #xml 저장 폴더가 존재하는 지 확인한다. 없으면 만든다.

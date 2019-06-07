@@ -1,10 +1,10 @@
 
 class DataInterface:
-    # initNumTag = 0
+    initNumTag = 0
     def __init__(self, data):
         self.data = data
-        # self.tag = DataInterface.initNumTag  # 문제 생길 시, 복원 바람
-        # DataInterface.initNumTag += 1
+        self.tag = DataInterface.initNumTag
+        DataInterface.initNumTag += 1
 
     def findWithOriginKey(self, originKey):
         if originKey in self.data.keys():
@@ -17,12 +17,6 @@ class DataInterface:
         for key, value in self.data.items():
             string += "{key} : {value}\n".format(key=key, value=value)
         return string
-
-    def __eq__(self, other):
-        return other.data == self.data
-
-    def __ne__(self, other):
-        return not self.__eq__(other)
 
 
     def getStringInHtml(self):
