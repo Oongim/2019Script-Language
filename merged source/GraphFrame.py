@@ -1,6 +1,8 @@
 from CustomTkClass import*
 from DataClass import formattedOptionToType
 import random
+import spam
+
 MONTHLYRENT, DEPOSIT,AREASIZE =range(3)
 
 class GraphFrame(Frame):
@@ -49,16 +51,18 @@ class GraphFrame(Frame):
                 color='blue'
             else:
                 color="black"
+
+            rectWidth = spam.getWidth(self.width, 10, dataNum)
             minHeightRate=min(int(self.sampleNumList[self.optionvalue.get()][i]/100*(self.count)),self.sampleNumList[self.optionvalue.get()][i])
-            self.canvas.create_rectangle(i * (self.width - 10) / dataNum + 7,
+            self.canvas.create_rectangle(i * rectWidth + 7,
                                          (maxHeight - minHeightRate) * (self.canvasHeight - 36) / maxHeight+15,
-                                         (i + 1) * (self.width - 10) / dataNum + 5, self.canvasHeight - 20,
+                                         (i + 1) * rectWidth + 5, self.canvasHeight - 20,
                                          fill=color, tag="grim",activefill='yellow')
 
-            self.canvas.create_text(i * (self.width - 10) / dataNum + (self.width - 10) / dataNum / 2 + 6,
+            self.canvas.create_text(i * rectWidth + rectWidth / 2 + 6,
                                     (maxHeight - minHeightRate) * (self.canvasHeight - 36) / maxHeight + 7,
                                     text=minHeightRate, tags="grim")
-            self.canvas.create_text(i * (self.width - 10) / dataNum + (self.width - 10) / dataNum / 2 + 6,
+            self.canvas.create_text(i * rectWidth + rectWidth / 2 + 6,
                                     (self.canvasHeight - 10),
                                     text=i, tags="grim")
 
