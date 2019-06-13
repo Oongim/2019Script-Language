@@ -11,8 +11,7 @@ class Telegram:
     def __init__(self):
         self.bot=telepot.Bot('893098103:AAEyC5H6VX3rbUKDGUQMAEnTYKxogA8PETw')
         self.bot.getMe()
-
-        self.bot.sendMessage('759465478', '안녕')
+        self.bot.sendMessage('759465478', '산방 텔레그램이 연동되었습니다.')
         self.bot.message_loop(self.handle)
 
     def setMainframe(self, mainframe):

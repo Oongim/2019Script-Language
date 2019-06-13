@@ -13,8 +13,7 @@ setup(name='KPU-Bang',
                   'MainFrame',
                   'ReadingDataFromXML',
                   'SearchFrame',
-                  'SettingFrame',
-                  'spam',
+                  'SettingFrame',              
                   'Telegram',
                   'UtilityDOM'
                   ]

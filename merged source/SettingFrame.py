@@ -41,21 +41,6 @@ class SettingEmailSenderWindow(Window):
         self.id = ""
         self.pw = ""
 
-        # def initUI(self):
-        #     self.parent.title("Entry")
-        #     self.pack(fill=BOTH, expand=1)
-        #     self.contents = StringVar()
-        #     # give the StringVar a default value
-        #     self.contents.set('test')
-        #     self.entry = Entry(self)
-        #     self.entry.pack(side=LEFT, padx=15)
-        #     self.entry["textvariable"] = self.contents
-        #     self.entry.bind('<Key-Return>', self.on_changed)
-        #
-        # def on_changed(self, event):
-        #     print('contents: {}'.format(self.contents.get()))
-        #     return True
-
         entryLeft = width//10
 
         self.idLabel = tkinter.Label(self, text="ID")
