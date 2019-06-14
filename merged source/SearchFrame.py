@@ -21,9 +21,11 @@ class OptionFrame(Frame):
         minHeight=20
         minWidth=40
 
+
+        dongList = ["정왕동","신천동","대야동", "포동", "은행동", "매화동", "조남동", "논곡동", "목감동", "거모동", "장곡동"]
         self.optionList=[["검색 옵션"],
                          ["주택 종류",      "",      '',      tkinter.BooleanVar()  ,("연립 다세대","단독 다가구")],
-                         ["동",            "",      '',      tkinter.BooleanVar()  ,("정왕동","신천동")],
+                         ["동",            "",      '',      tkinter.BooleanVar()  , dongList],
                          ["월세",         "최소",   '',       tkinter.BooleanVar()],
                          ["",            "최대",   '',       tkinter.BooleanVar()],
                          ["보증금",       "최소",   '',       tkinter.BooleanVar()],

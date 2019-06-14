@@ -37,6 +37,7 @@ class SettingFrmae(Frame):
 class SettingEmailSenderWindow(Window):
     def __init__(self, mainframe, left=200, top=200, width=400, height=200):
         super(SettingEmailSenderWindow, self).__init__(left, top, width, height)
+        self.title("구글 계정 로그인")
         self.mainframe = mainframe
         self.id = ""
         self.pw = ""

@@ -32,17 +32,21 @@ class Telegram:
         if len(res_list) is 0:
             self.sendMessage( user, '찜목록에 데이터가 없습니다.' )
             return
-        msg = ''
 
         for r in res_list:
-            strAdress = r.data["법정동"] + r.data["지번"]
-            map_url = make_googlemap_url(Parsing_KAKAOMAP_Address(strAdress)[0])
-            with urllib.request.urlopen(map_url) as uFile:
-                imgSrc = uFile.read()
-            rawImage = PIL.Image.open(io.BytesIO(imgSrc))
-            rawImage.save(os.path.join(os.getcwd()+'/Image', 'TelegramSendImage.png'))
+            msg = str(r)
+            try:
+                strAdress = r.data["법정동"] + r.data["지번"]
+                map_url = make_googlemap_url(Parsing_KAKAOMAP_Address(strAdress)[0])
+                with urllib.request.urlopen(map_url) as uFile:
+                    imgSrc = uFile.read()
+                rawImage = PIL.Image.open(io.BytesIO(imgSrc))
+                rawImage.save(os.path.join(os.getcwd() + '/Image', 'TelegramSendImage.png'))
+                msg += "\n아래는 위치입니다."
+            except:
+                rawImage = None
 
-            msg = str(r)+'\n'
+            msg += '\n'
             self.sendMessage(user, msg, rawImage)
 
 
